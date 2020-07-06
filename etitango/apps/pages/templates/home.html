@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- <script>function redirect(){window.location.href = "{% url 'profile' %}";}setTimeout(redirect, 0);</script> -->
+<div id="home-start" class="container-fuild d-flex align-items-center justify-content-center p-0">
+  <img id="home-img-1" class="img-fluid" src="{% static 'img/h/login-background.jpg' %}">
+  <img id="home-img-2" class="img-fluid" src="{% static 'img/h/eti_logo_bw.png' %}" width="15%">
+  <section id="section03" class="scroll">
+    <a href="#event"><span></span>deslizar</a>
+  </section>
+</div>
+<div id="event" class="container-fluid">
+  <div class="row d-flex center p-0">
+    <div class="col-sm-3 p-2 my-3"></div>
+    <div class="col-sm-6 p-2 my-3 text-center">
+
+      {% include 'event_details.html' %}
+    </div>
+  </div>
+
+</div>
+<div id="history" class="container-fluid">
+  {% include 'historia.html' %}
+</div>
+<div id="protocolo" class="d-flex align-items-center justify-content-center bg-light">
+  {% include 'protocolo.html' %}
+</div>
+<!-- login -->
+{% if not user.is_authenticated %}
+<div id="login" class="container-fluid bg-light p-0 fill">
+  <div class="container row d-flex align-content-center align-items-center fill">
+    <div class="col-sm-6 p-2 my-3"><img class="rounded float-right" src="{% static 'img/h/eti_logo.png'%}" width="50%" alt=""></div>
+    <div class="col-sm-5 p-2 my-3">
+      <h2 class="text-dark">Identificate</h2>
+      <form method="post" novalidate>
+        {% load crispy_forms_tags %}
+        {% csrf_token %}
+        {{ form|crispy }}
+        <a href="register"><button type="button" class="btn btn-light p-2">Registrarse</button></a>
+        <button type="submit" class="btn btn-success">Ingresar</button>
+      </form>
+      <a href="password_reset"><button type="button" class="btn btn-light p-2">¿Has olvidado tu contraseña?</button></a>
+    </div>
+  </div>
+</div>
+{% endif %}
+<!-- footer -->
+<div class="row justify-content-center bg-dark text-white m-0">
+  <div class="col mt-2 align-content-center">
+    <h4 class="col-10 m-2 p-2 text-center">Encuentro Tanguero Del Interior</h4>
+    <p class="col-10 m-2 p-2 text-center">Encuentro autogestivo de tango, donde todxs participamos para generar un pista de baile desde el respeto y la diversidad</p>
+  </div>
+  <div class="col mt-2">
+    <h4 class="m-2 p-2 text-center">Redes</h4>
+    <a class="m-2 rounded text-center" href="https://www.facebook.com/groups/305562943758/"><img class="rounded mx-auto d-block" src="{% static 'img/h/fb_logo.png' %}" alt="facebook" width="40" href="#" align="middle"></a>
+  </div>
+  <div class="col mt-2">
+    <h4 class="m-2 p-2 text-center">Diseño y Programacións</h4>
+  </div>
+</div>
+{% endblock %}

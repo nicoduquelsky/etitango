@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div id="register" class="container-fluid bg-light">
+  <div class="row d-flex center p-0">
+    <div class="col-sm-3 p-2 my-3"></div>
+    <div class="col-sm-6 p-2 my-3">
+      <img id="home-img-1" class="rounded mx-auto d-block" align="middle" src="{% static 'img/h/eti_logo.png' %}" width="35%">
+      <h1 class="pt-3 text-center">Editar Perfil</h1>
+      <a href="{% url 'edit_photo' %}"><button type="button" class="btn btn-info" name="button">Cambiar Imagen</button></a>
+      <a href="{% url 'password_change' %}"><button type="button" class="btn btn-info" name="button">Cambiar constraseña</button></a>
+      <form method="post" id="register-form" data-provinces-url="{% url 'ajax_load_provinces' %}" data-cities-url="{% url 'ajax_load_cities' %}" novalidate>
+        {% load crispy_forms_tags %}
+        {% csrf_token %}
+        {{ form|crispy }}
+        {{ porm|crispy }}
+        <a href="{% url 'profile' %}"><button type="button" class="btn btn-light p-2">Regresar</button></a>
+        <button type="submit" class="btn btn-success" name="register">Confirmar</button>
+      </form>
+    </div>
+
+    <!-- LOCATION SCRIPTS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script>
+      $("#id_country").change(function() {
+        var url = $("#register-form").attr("data-provinces-url");
+        var countryId = $(this).val();
+        $.ajax({
+          url: url,
+          data: {
+            'country': countryId
+          },
+          success: function(data) {
+            $("#id_province").html(data);
+          }
+        });
+      });
+    </script>
+
+    <script>
+      $("#id_province").change(function() {
+        var url = $("#register-form").attr("data-cities-url");
+        var provinceId = $(this).val();
+        $.ajax({
+          url: url,
+          data: {
+            'province': provinceId
+          },
+          success: function(data) {
+            $("#id_city").html(data);
+          }
+        });
+      });
+    </script>
+  </div>
+</div>
+{% endblock %}

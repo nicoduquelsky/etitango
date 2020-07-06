@@ -1,0 +1,8 @@
+Django==3.0.8
+django-crispy-forms==1.9.1
+python-decouple==3.3
+psycopg2-binary==2.8
+mysqlclient
+django-mysql==2.2.0
+Pillow
+six

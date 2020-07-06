@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div id="register" class="container-fluid bg-light">
+  <div class="row d-flex center p-0">
+    <div class="col-sm-3 p-2 my-3"></div>
+    <div class="col-sm-6 p-2 my-3">
+      <img id="home-img-1" class="rounded mx-auto d-block" align="middle" src="{% static 'img/h/eti_logo.png' %}" width="35%">
+      {% if EventOpen %}
+      <h1 class="pt-3 text-center">Inscripciónes para {{ EventOpen.eti_name }}</h1>
+      <form method="post" id="register-form" data-provinces-url="{% url 'ajax_load_provinces' %}" data-cities-url="{% url 'ajax_load_cities' %}" novalidate>
+        {% load crispy_forms_tags %}
+        {% csrf_token %}
+        {{ form|crispy }}
+        <a href="{% url 'profile' %}"><button type="button" class="btn btn-light p-2">Regresar</button></a>
+        <button type="submit" class="btn btn-success" name="inscription">Inscribirse</button>
+      </form>
+      {% else %}
+      <h1 class="pt-3 text-center"> No hay evento para registrarse</h1>
+      <a href="{% url 'profile' %}"><button type="button" class="btn btn-light p-2">Regresar</button></a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

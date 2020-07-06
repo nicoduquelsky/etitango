@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div id="done" class="container-fluid bg-light">
+  <div class="row d-flex align-items-center p-0 fill">
+    <div class="col-sm-3 p-2 my-3"></div>
+    <div class="col-sm-6 p-2 my-3 text-center">
+      <img id="home-img-1" class="rounded mx-auto d-block" align="middle" src="{% static 'img/h/eti_logo.png' %}" width="35%">
+      {% if perms.events.change_event %}
+        {% if EventId %}
+          <h2 class="pt-3">¡Estás a punto de volver {{ EventId.eti_name }} un evento publico!<h2>
+          <h6 class="pb-3">Los eventos son privados y permanecen invisible mientras no han sido activados.
+            <br>
+            <br>
+            Solo debes activarlo cuando estes segurx de que quieres que el la comunidad pueda verlo.
+            <br>
+            <br>
+          Una vez que {{ Eventid.eti_name }} se vuelva un evento publico, ya no podrás volverlo privado nuevamente.</h6>
+          <form method="post" id="active-event">
+            {% csrf_token %}
+            <p style="text-align:center"></p>
+            {% if messages %}
+            {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+            {% endif %}
+            {% load crispy_forms_tags %}
+            {{ form|crispy }}
+            <a href="{% url 'profile' %}"><button type="button" class="btn btn-danger">Regresar</button></a>
+            <button type="submit" class="btn btn-success" name="active">Confirmar</button>
+          </form>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

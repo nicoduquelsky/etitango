@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div id="done" class="container-fluid bg-light fill">
+  <div class="row d-flex center p-0">
+    <div class="col-sm-3 p-2 my-3"></div>
+    <div class="col-sm-6 p-2 my-3 text-center">
+      <img id="home-img-1" class="rounded mx-auto d-block" align="middle" src="{% static 'img/h/eti_logo.png' %}" width="35%">
+      {% if user.is_active %}
+      <script>
+        function redirect() {
+          window.location.href = "{% url 'profile' %}";
+        }
+        setTimeout(redirect, 5000);
+      </script>
+      <h3 class="py-3">¡Felicitaciones, {{ user.profile.name.title }}!</h3>
+      Ya estas registrado. En breves cargaremos tu perfil.
+      <h5 class="py-3">Tambien puedes dirigirte directamente desde <a href="{% url 'profile' %}">aquí</a></h5>
+      {% else %}
+      <h3 class="py-3">Something goes wrong!</h3>
+      We don't know what happen, but can solve it. <a href="/contact/">Contact us</a> and we will help you.
+      {% endif %}
+    </div>
+  </div>
+  {% endblock %}

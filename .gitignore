@@ -1,0 +1,8 @@
+# Django
+**/migrations
+**__pycache__**
+
+media/
+*.pyc
+
+env/

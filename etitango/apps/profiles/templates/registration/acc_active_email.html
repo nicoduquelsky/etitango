@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </head>
+  <body>
+<div id="done" class="container-fluid bg-light">
+  <div class="row d-flex align-items-center p-0 fill">
+    <div class="col-sm-3 p-2 my-3"></div>
+    <div class="col-sm-6 p-2 my-3 text-center">
+      <img id="home-img-1" class="rounded mx-auto d-block" align="middle" src="http://{{ domain }}{% static 'img/h/eti_logo.png' %}" width="35%">
+      <h2 class="pt-5">Código de activación</h2>
+      <h5 class="pb-5">Hola {{ user.profile.name.title }},
+      Por favor, has click en el boton para completar tu registro:
+    </h5>
+      <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}"><button type="button" class="btn btn-success p-2">Activar cuenta</button></a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

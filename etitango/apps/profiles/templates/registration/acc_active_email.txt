@@ -1,0 +1,6 @@
+{% autoescape off %}
+Hola {{ user.profile.name.title }},
+Por favor, has click en el enlace para completar tu registro:
+
+<a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">confirmar tu cuenta.</a>
+{% endautoescape %}

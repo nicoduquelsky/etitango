@@ -1,0 +1,12 @@
+{% load static %}
+{% block content %}
+<img id="home-img-1" class="rounded mx-auto d-block" align="middle" src="{% static 'img/h/eti_logo.png' %}" width="35%">
+{% if EventActive %}
+<h2 class="py-3">{{ event }}</h2>
+<h5>{{ event }} permitirá inscripciones a partir del {{EventActive.open_date}}</h5><br>
+<h5> {{ event }} comenzará el {{ EventActive.begin_date }}!</h5><br>
+<h5> El organizador de {{ event }} es {{ boss.profile.get_full_name }}!</h5><br>
+{% else %}
+<h5>Sorry, there is no event open</h5>
+{% endif %}
+{% endblock %}

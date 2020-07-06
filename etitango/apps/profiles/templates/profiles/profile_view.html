@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row justify-content-center bg-info text-white m-0">
+  <!-- ficha -->
+  <div class="container row d-flex align-items-center">
+    <div id="avatar" class="col-sm-3 my-2">
+      <img src="/media/{{user.profile.avatar}}" alt="login" style="display:block; width:8em; margin:auto">
+    </div>
+    <div class="datos" class="col-sm-3">
+      <h1>{{ user.profile.get_full_name.title }}</h1>
+      {% if perms.events.add_event %}
+      <h2 style="color:orange">Organizador</h2>
+      {% elif perms.blog.add_blog %}
+      <h2 style="color:blue">Editor</h2>
+      {% endif %}
+      {% if perms.blog.confirm_payload %}
+      <h2 style="color:red">Revisor</h2>
+      {% endif %}
+      <h5>{{ user.profile.country }}</h5>
+    </div>
+  </div>
+</div>
+<!-- acciones -->
+<div class="container-fuild row bg-light">
+  <div class="col-sm-3 pt-2">
+    <h4 class="bg-info text-center text-white py-2">Opciones de Usuario</h4>
+    <div class="card-deck">
+      <div class="card style=" width:400px">
+        <div class="card-body text-center">
+          <h4>Opciones de Perfil</h4>
+          <p class="card-text">Edita tu datos, tu foto o configura tu cuenta de usuario</p>
+          <a class="btn btn-warning stretched-link" href="{% url 'edit_profile' %}">Editar perfil</a>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-2">
+      <div class="card-body text-center">
+        <h4>Salir</h4>
+        <p class="card-text">No es necesario, pero si lo deseas, puedes cerrar tu sesión, {{ user.profile.name.title }}. </p>
+        <a class="btn btn-danger stretched-link" href="{% url 'logout' %}">logout</a>
+      </div>
+    </div>
+  </div>
+  {% if EventActive %}
+  <div class="col-sm-3 pt-2">
+    <h4 class="bg-success text-center text-white py-2">Opciones de {{EventActive.eti_name}}</h4>
+    {% if EventOpen %}
+  <div class="card mt-2">
+    <div class="card-body text-center">
+      <h4>¡Inscripciones Abiertas!</h4>
+      <p class="card-text">Ya puedes anotarte en {{ EventOpen.eti_name }} que se realizará en {{ EventOpen.open_date }}</p>
+      <a class="btn btn-success stretched-link" href="{% url 'new_inscription' %}">Inscribirse</a>
+    </div>
+  </div>
+  {% endif %}
+  <div class="card mt-2">
+    <div class="card-body text-center">
+      <h4>{{ EventActive.eti_name }}</h4>
+      <p class="card-text">Enteraté de todo lo relacionado a {{ EventActive.eti_name }}.</p>
+      <a class="btn btn-info stretched-link" href="{% url 'view_event' %}">Ver evento</a>
+    </div>
+  </div>
+  <div class="card mt-2">
+    <div class="card-body text-center">
+      <h4>Rendiciones</h4>
+      <p class="card-text">Informaté de como les esta yendo a los organizadores de {{EventActive.eti_name}}</p>
+      <a class="btn btn-secondary stretched-link" href="#">Rendiciones</a>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+  {% if perms.events.add_event %}
+  <div class="col-sm-3 pt-2">
+    <h4 class="bg-danger text-center text-white py-2">Opciones de Organizador</h4>
+    {% if EventId %}
+    <div class="card mt-2">
+      <div class="card-body text-center">
+        <h4>Editar Evento</h4>
+        <p class="card-text">¿Tienes que cambiar algo de {{ EventId.eti_name }}? Aquí podemos ayudarte</p>
+        <a class="btn btn-warning stretched-link" href="{% url 'edit_event' %}">Editar Evento</a>
+        {% else %}
+        <h4>Crear Evento</h4>
+        <p class="card-text">¿Estas listx para organizar un ETI? Animate creando un evento nuevo</p>
+        <a class="btn btn-success stretched-link" href="{% url 'create_event' %}">Crear evento</a>
+        {% endif %}
+      </div>
+  </div>
+  </div>
+    {% endif %}
+    {% if perms.events.add_eventgroup %}
+    <div class="card mt-2">
+      <div class="card-body text-center">
+        <h4>Colaboradores</h4>
+        <p class="card-text">Configura el grupo de usuarios que te ayuden a organizar mejor las noticias</p>
+        <a class="btn btn-primary stretched-link" href="{% url 'edit_group' %}">Agregar Editores</a>
+      </div>
+    </div>
+    {% if EventId %}
+      {% if not EventActive %}
+    <div class="card mt-2">
+      <div class="card-body text-center">
+        <h4>Activar Evento</h4>
+        <p class="card-text">Cuando actives el evento, se volverá publico para que cualquiera pueda ver sus detalles</p>
+        <a class="btn btn-success stretched-link" href="{% url 'active_event' %}">Activar evento</a>
+      </div>
+    </div>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  {% if perms.blog.add_blog %}
+    {% if EventActive %}
+  <div class="col-sm-3 pt-2">
+    <h4 class="bg-info text-center text-light py-2">Opciones de Editor</h4>
+    <div class="card mt-2">
+      <div class="card-body text-center">
+        <h4>Rendiciones</h4>
+        <p class="card-text">Configura todas las rendiciones de tu evento, para que todxs sepan como les ha ido.</p>
+        <a class="btn btn-warning stretched-link" href="#">Editar Rendiciones</a>
+      </div>
+    </div>
+  </div>
+    {% endif %}
+  {% endif %}
+  {% if perms.blog.confirm_payload %}
+    {% if EventOpen %}
+    <div class="col-sm-3 pt-2">
+      <h4 class="bg-danger text-center text-light py-2">Comisión revisora</h4>
+      <div class="card mt-2">
+        <div class="card-body text-center">
+          <h4>Rendiciones</h4>
+          <p class="card-text">Revisa las rendiciones de {{ EventOpen.eti_name }}.</p>
+          <a class="btn btn-warning stretched-link" href="{% url 'blog' %}">Revisar Rendiciones</a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}
