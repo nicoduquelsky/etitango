@@ -34,7 +34,7 @@ Check this [video](https://www.youtube.com/watch?v=5z2kYFG3OfY&list=PLrb1e2Mp6N_
 ## How Commit
 Please check this list before commit:
 
-1. You must be working in your own branch, not at master.
+1. You must be working in a branch from developer, not from master.
 2. Merge the master into your branch, so you can be sure that you are not breaking what
  actually works.
 3. If everything goes well, you can push your branch.
