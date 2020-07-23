@@ -11,12 +11,13 @@ RUN pip install pip -U
 # Copy the app, connect to the data base (only for dev)
 COPY etitango /var/www/html/etitango
 COPY requirements.txt /var/www/html/etitango/
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN ln -s /usr/local/bin/docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
 
 # Add docker-compose-wait tool -------------------
 ENV WAIT_VERSION 2.7.2
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
 RUN chmod +x /wait
 
-RUN pip install -r /var/www/html/etitango/requirements.txt
-CMD ["python3", "/var/www/html/etitango/manage.py", "makemigrations"]
-CMD ["python3", "/var/www/html/etitango/manage.py", "migrate"]
+# ENTRYPOINT ['docker-entrypoint.sh']
