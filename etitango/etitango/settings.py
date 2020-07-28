@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.pages',
     'apps.data',
     'apps.blog',
+    'apps.expenditure',
 
     # THIRD PARTY
     'crispy_forms',
@@ -149,5 +150,5 @@ EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = config('EMAIL_PORT', cast=int)
-# EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = False
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
