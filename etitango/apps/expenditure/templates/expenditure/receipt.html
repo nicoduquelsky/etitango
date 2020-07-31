@@ -1,0 +1,23 @@
+{% block content %}
+<h1>Ingreso de Gastos</h1>
+<p>
+    Esta sección es utilizada para permitir ingresar los gastos
+    realizados durante la organización del evento.
+</p>
+    {% if submitted %}
+    <p>
+        El gasto se cargó exitosamente.
+    </p>
+    {% else %}
+    <form action="/expenditure/" enctype="multipart/form-data" method="POST" novalidate>
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td>&nbsp</td>
+                <td><input type="submit" value="Submit"></td>
+            </tr>
+        </table>
+        {% csrf_token %}
+    </form>
+    {% endif %}
+{% endblock content %}
