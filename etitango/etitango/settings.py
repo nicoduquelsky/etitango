@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     # # OWN
     'apps.events',
     'apps.pages',
-    'apps.data',
+    'apps.countries',
     'apps.blog',
     'apps.expenditure',
 

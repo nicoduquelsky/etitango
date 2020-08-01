@@ -3,7 +3,7 @@ from django import forms
 from datetime import date
 
 # APPS
-from apps.data.models import Country, Province, City
+from apps.countries.models import Country, Province, City
 
 # CONTANTS
 GENDER_CHOICES = (

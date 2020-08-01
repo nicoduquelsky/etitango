@@ -2,9 +2,8 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView, View, UpdateView
 from datetime import date
 
-# APPS
-from apps.data.defs import PanelContextMixin, PermissionContextMixin
-from apps.data import console_log
+# UTILS
+from utils.defs import PanelContextMixin, PermissionContextMixin
 
 # SELF
 from .forms import InscriptionForm, EventForm, EventActiveForm

@@ -9,7 +9,7 @@ python3 /var/www/html/etitango/manage.py collectstatic --noinput
 
 # Apply database migrations
 echo "===============Apply database migrations==============="
-python3 /var/www/html/etitango/manage.py makemigrations data profiles blog pages events expenditure
+python3 /var/www/html/etitango/manage.py makemigrations countries profiles blog pages events expenditure
 python3 /var/www/html/etitango/manage.py migrate
 
 # Start server
