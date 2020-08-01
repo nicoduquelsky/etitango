@@ -1,8 +1,6 @@
 from django.contrib.auth.models import Group, Permission
 
 # APPS
-from apps.data import console_log
-
 from apps.profiles.models import User
 
 # CONTANTS

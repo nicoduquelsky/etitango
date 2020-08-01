@@ -4,11 +4,12 @@ from django.db import models
 from datetime import date
 
 # APPS
-from apps.data.perms import EventGroup_Perms
-from apps.data.models import Country, City, Province
-from apps.data import choices
-
+from apps.countries.models import Country, City, Province
 from apps.profiles.models import User
+
+# UTILS
+from utils import choices
+from utils.perms import EventGroup_Perms
 
 class Event(models.Model):
     staff               = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

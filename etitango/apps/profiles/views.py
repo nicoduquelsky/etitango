@@ -18,11 +18,12 @@ from django.template import Context
 from django.template.loader import render_to_string
 
 # APPS
-from apps.data.defs import CleanAndUpper, PanelContextMixin, PermissionContextMixin
-from apps.data.models import Country, Province, City
-from apps.data.tokens import account_activation_token
-
+from apps.countries.models import Country, Province, City
 from apps.events.models import Event
+
+# UTILS
+from utils.defs import CleanAndUpper, PanelContextMixin, PermissionContextMixin
+from utils.tokens import account_activation_token
 
 # SELF
 from .forms import RegisterForm, UserForm, ProfileForm, PhotoForm, GroupMembersForm

@@ -9,8 +9,10 @@ import string
 from etitango.settings import MEDIA_URL
 
 # APPS
-from apps.data import choices
-from apps.data.models import City, Country, Province
+from apps.countries.models import City, Country, Province
+
+# UTILS
+from utils import choices
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, is_admin=False, is_staff=False, is_active=True):
