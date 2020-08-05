@@ -1,7 +1,9 @@
 version: '3'
 services:
  db:
-  image: mysql:latest
+  build:
+    context: .
+    dockerfile: ./mysql/Dockerfile
   restart: always
   command: mysqld --default-authentication-plugin=mysql_native_password
   environment:
