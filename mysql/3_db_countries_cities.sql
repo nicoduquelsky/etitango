@@ -39,7 +39,7 @@ CREATE TABLE `countries_city`
   CONSTRAINT `countries_city_province_id_46634237_fk_countries_province_id` FOREIGN KEY
 (`province_id`) REFERENCES `countries_province`
 (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -60,8 +60,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dumping data for table `countries_city`
---
+-- Dump completed on 2020-08-06 16:56:58
 
 INSERT INTO `countries_city` (`id`, `province_id`, `city_name`, `capital_flag`, `zone`) VALUES
 (1, 1, '25 de Mayo', 0, 2),

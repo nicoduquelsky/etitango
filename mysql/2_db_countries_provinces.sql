@@ -38,7 +38,7 @@ CREATE TABLE `countries_province`
   CONSTRAINT `countries_province_country_id_2208426f_fk_countries` FOREIGN KEY
 (`country_id`) REFERENCES `countries_country`
 (`country_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -59,7 +59,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-05 18:53:49
+-- Dump completed on 2020-08-06 16:56:51
 
 INSERT INTO `countries_province` (`id`, `province_name`, `country_id`) VALUES
 (1, 'Buenos Aires', 'AR'),

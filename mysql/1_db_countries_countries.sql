@@ -35,7 +35,7 @@ CREATE TABLE `countries_country`
 (`country_id`),
   UNIQUE KEY `country_name`
 (`country_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +56,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-05 18:53:41
+-- Dump completed on 2020-08-06 16:56:23
 
 
 INSERT INTO `countries_country` (`id`, `country_id`, `country_name`) VALUES
