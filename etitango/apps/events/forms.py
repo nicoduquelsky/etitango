@@ -1,11 +1,13 @@
-from django.forms import ModelForm, Textarea, BooleanField
+from django.forms import ModelForm, Textarea, BooleanField, DateField
 
 # APPS
-from apps.data import choices, console_log
-from apps.data.defs import PanelContextMixin, PermissionContextMixin
-from apps.data.models import Province, Country, City
-
+from apps.countries.models import Province, Country, City
 from apps.profiles.models import User
+
+# UTILS
+from utils import choices
+from utils.defs import PanelContextMixin, PermissionContextMixin
+from utils.widgets import DatePickerInput
 
 # SELF
 from .models import Event, Inscription, EventGroup
@@ -26,15 +28,14 @@ class EventForm(PanelContextMixin, PermissionContextMixin, ModelForm):
         queryset=choices.Province.objects.all(), required=False, label="Provincia")
     city = choices.CityModelChoiceField(
         queryset=choices.City.objects.all(), required=False, label="Ciudad")
+    begin_date = DateField(widget=DatePickerInput())
+    open_date = DateField(widget=DatePickerInput())
+    close_date = DateField(widget=DatePickerInput())
+
 
     class Meta:
         model   = Event
         fields  = EVENT_FIELDS
-        widgets = {
-                    'begin_date': choices.DateInput(),
-                    'open_date': choices.DateInput(),
-                    'close_date': choices.DateInput(),
-         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -111,13 +112,13 @@ class InscriptionForm(PanelContextMixin, ModelForm):
     """
     # eti = choices.EtiModelChoiceField(Event.objects.filter(active='True'), required=True)
     # eti = Event.objects.filter(active='True')
+    arrival_date = DateField(widget=DatePickerInput())
+    leave_date = DateField(widget=DatePickerInput())
+    close_date = DateField(widget=DatePickerInput())
 
     class Meta:
         model   = Inscription
         fields  = INSCRIPTION_FIELDS
         widgets = {
-                    'arrival_date': choices.DateInput(),
-                    'leave_date': choices.DateInput(),
-                    'close_date': choices.DateInput(),
                     'extra_details': Textarea(),
          }

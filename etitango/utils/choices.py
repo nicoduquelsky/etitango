@@ -3,7 +3,7 @@ from django import forms
 from datetime import date
 
 # APPS
-from apps.data.models import Country, Province, City
+from apps.countries.models import Country, Province, City
 
 # CONTANTS
 GENDER_CHOICES = (
@@ -71,7 +71,3 @@ class EtiModelChoiceField(forms.ModelChoiceField):
             return obj.eti_name
         else:
             return False
-
-# INPUTFIELDS
-class DateInput(forms.DateInput):
-    input_type = 'date'
