@@ -1,9 +1,13 @@
 version: '3'
 services:
  db:
-  image: mysql:latest
+  build:
+    context: .
+    dockerfile: ./mysql/Dockerfile
   restart: always
   command: mysqld --default-authentication-plugin=mysql_native_password
+  volumes:
+  - ./mysql/mysql.cnf:/etc/mysql/conf.d/custom.cnf
   environment:
    MYSQL_DATABASE: 'db_etitango'
    MYSQL_USER: 'etitango'
@@ -34,5 +38,5 @@ services:
      - WAIT_HOSTS_TIMEOUT=5
      - WAIT_SLEEP_INTERVAL=15
      - WAIT_HOST_CONNECT_TIMEOUT=5
-   # volumes:
-     # - ./etitango:/var/www/html/etitango
+   volumes: # only for dev
+     - ./etitango:/var/www/html/etitango

@@ -11,6 +11,7 @@ from apps.countries.models import Province, Country, City
 # UTILS
 from utils import choices
 from utils.defs import PanelContextMixin, PermissionContextMixin
+from utils.widgets import DatePickerInput
 
 # SELF
 from .models import User, Profile
@@ -88,18 +89,17 @@ class UserForm(ModelForm):
 class ProfileForm(ModelForm):
     # Locations work with data.choices
     country = choices.CountryModelChoiceField(
-        queryset=choices.Country.objects.all(), required=False, label="País")
+        queryset=choices.Country.objects.all(), required=True, label="País")
     province = choices.ProvinceModelChoiceField(
         queryset=choices.Province.objects.all(), required=False, label="Provincia")
     city = choices.CityModelChoiceField(
         queryset=choices.City.objects.all(), required=False, label="Ciudad")
+    birth_date = forms.DateField(
+        widget=DatePickerInput(), required=True, label="Fecha de Nacimiento")
 
     class Meta:
         model = Profile
         fields = PROFILES_FIELDS
-        widgets = {
-            'birth_date': choices.DateInput(),
-        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
