@@ -6,9 +6,11 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import gettext as _
 
 # APPS
-from apps.data import choices
-from apps.data.models import Province, Country, City
-from apps.data.defs import PanelContextMixin, PermissionContextMixin
+from apps.countries.models import Province, Country, City
+
+# UTILS
+from utils import choices
+from utils.defs import PanelContextMixin, PermissionContextMixin
 
 # SELF
 from .models import User, Profile

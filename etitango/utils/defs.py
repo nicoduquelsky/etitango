@@ -5,8 +5,7 @@ from django.forms.models import model_to_dict
 from datetime import date
 
 # APPS
-from apps.data.models import Country, Province, City
-from apps.data import console_log
+from apps.countries.models import Country, Province, City
 
 from apps.events.models import Event
 

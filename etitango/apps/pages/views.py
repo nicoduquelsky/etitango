@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
 
 # APPS
-from apps.data.defs import EventContextMixin
+from utils.defs import EventContextMixin
 
 # Home.
 class HomeView(EventContextMixin, LoginView):

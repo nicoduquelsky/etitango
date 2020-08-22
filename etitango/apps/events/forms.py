@@ -1,11 +1,12 @@
 from django.forms import ModelForm, Textarea, BooleanField
 
 # APPS
-from apps.data import choices, console_log
-from apps.data.defs import PanelContextMixin, PermissionContextMixin
-from apps.data.models import Province, Country, City
-
+from apps.countries.models import Province, Country, City
 from apps.profiles.models import User
+
+# UTILS
+from utils import choices
+from utils.defs import PanelContextMixin, PermissionContextMixin
 
 # SELF
 from .models import Event, Inscription, EventGroup
