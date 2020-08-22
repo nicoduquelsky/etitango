@@ -6,6 +6,10 @@ def reduce_image_size(image, new_name=None, new_quality=None, new_size=None):
     with Image.open(image) as img:
         thumb_io = BytesIO()
 
+        if img.mode in ("RGBA", "P"):
+            rgb_img = img.convert("RGB")
+            img = rgb_img
+
         if new_name:
             image_name = new_name    
         else:
@@ -17,7 +21,7 @@ def reduce_image_size(image, new_name=None, new_quality=None, new_size=None):
 
         elif new_quality:
             img.save(thumb_io, format='JPEG', quality=new_quality)
-
+        
         new_image = File(thumb_io, name=image_name)
 
         return new_image

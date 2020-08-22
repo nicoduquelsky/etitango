@@ -2,15 +2,23 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls import url
-from django.conf.urls.static import static
+#from django.conf.urls.static import static
 from django.contrib.auth.urls import views as auth_views
+
+#For displaying media and static files
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # APPS
 from apps.pages import views as pages
 from apps.profiles import views as profiles
 from apps.events import views as events
 from apps.blog import views as blog
-from apps.countries import views as countries
+from apps.countries import views as countrie
+
+
+#CREATE BOSS AND REVIEW GROPUPS
+from utils.perms import Create_SuperGroups, BossGroup_Perms, ReviewGroup_Perms
 
 urlpatterns = [
     # TOKENS
@@ -18,8 +26,8 @@ urlpatterns = [
         profiles.activate, name='activate'),
 
     # AJAX
-    path('ajax/load-provinces/', countries.load_provinces, name='ajax_load_provinces'),
-    path('ajax/load-cities/', countries.load_cities, name='ajax_load_cities'),
+    # path('ajax/load-provinces/', countries.load_provinces, name='ajax_load_provinces'),
+    # path('ajax/load-cities/', countries.load_cities, name='ajax_load_cities'),
 
     # PATHS
     path('', pages.HomeView.as_view(), name='home'),
@@ -52,4 +60,12 @@ urlpatterns = [
     ## GROUPS
     path('event/group/edit/', profiles.edit_group_page.as_view(), name='edit_group'),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    ##EXPENDITURE
+    path('expenditure/', include('apps.expenditure.urls')),
+
+] 
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+Create_SuperGroups()

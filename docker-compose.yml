@@ -34,5 +34,3 @@ services:
      - WAIT_HOSTS_TIMEOUT=5
      - WAIT_SLEEP_INTERVAL=15
      - WAIT_HOST_CONNECT_TIMEOUT=5
-   # volumes:
-     # - ./etitango:/var/www/html/etitango
