@@ -18,8 +18,10 @@ urlpatterns = [
         profiles.activate, name='activate'),
 
     # AJAX
-    path('ajax/load-provinces/', countries.load_provinces, name='ajax_load_provinces'),
-    path('ajax/load-cities/', countries.load_cities, name='ajax_load_cities'),
+    path('ajax/load-provinces/', countries.load_provinces,
+         name='ajax_load_provinces'),
+    path('ajax/load-cities/', countries.load_cities,
+         name='ajax_load_cities'),
 
     # PATHS
     path('', pages.HomeView.as_view(), name='home'),

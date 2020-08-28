@@ -123,9 +123,9 @@ class edit_profile_page(PanelContextMixin, UpdateView):
     success_url     = reverse_lazy('profile')
     success_message = 'Tu perfil fue actualizado con exito!'
 
-
     def get_object(self, queryset=None):
-       return self.request.user.profile
+        return self.request.user.profile
+
 
     def form_valid(self, form):
         form.instance.dni_type      = form.cleaned_data.get('dni_type').upper()

@@ -87,13 +87,12 @@ class UserForm(ModelForm):
         fields = ('email', )
 
 class ProfileForm(ModelForm):
-    # Locations work with data.choices
     country = choices.CountryModelChoiceField(
-        queryset=choices.Country.objects.all(), required=True, label="País")
+        queryset=Country.objects.all())
     province = choices.ProvinceModelChoiceField(
-        queryset=choices.Province.objects.all(), required=False, label="Provincia")
+        queryset=Province.objects.all())
     city = choices.CityModelChoiceField(
-        queryset=choices.City.objects.all(), required=False, label="Ciudad")
+        queryset=City.objects.all())
     birth_date = forms.DateField(
         widget=DatePickerInput(), required=True, label="Fecha de Nacimiento")
 
@@ -103,33 +102,25 @@ class ProfileForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Location fields work with scripts in the template level.
-        self.fields['province'].queryset = Province.objects.none()
-        self.fields['city'].queryset = City.objects.none()
 
         if 'country' in self.data:
-            if 'country' in self.data == 'NULL':
-                self.fields['city'].queryset = City.objects.none()
-                return
             try:
-                country_id = int(self.data.get('country'))
-                countryMid = Country.objects.get(id=country_id).country_id
+                country_id = Country.objects.get(
+                    id=int(self.data.get('country'))).country_id
                 self.fields['province'].queryset = Province.objects.filter(
-                    country_id=countryMid).order_by('province_name')
+                    country_id=country_id).order_by('province_name')
             except (ValueError, TypeError):
                 pass
 
             if 'province' in self.data:
-                if 'province' in self.data == 'NULL':
-                    self.fields['city'].queryset = City.objects.none()
-                    return
                 try:
-                    province_id = int(self.data.get('province'))
-                    provinceMid = Province.objects.get(id=province_id)
+                    province_id = Province.objects.get(
+                        id=int(self.data.get('province')))
                     self.fields['city'].queryset = City.objects.filter(
-                        province_id=provinceMid).order_by('city_name')
+                        province_id=province_id).order_by('city_name')
                 except (ValueError, TypeError):
                     pass
+
 
 class PhotoForm(ModelForm):
     avatar = forms.ImageField()
@@ -137,6 +128,7 @@ class PhotoForm(ModelForm):
     class Meta:
         model = Profile
         fields = ('avatar',)
+
 
 # GROUPS
 class GroupMembersForm(PanelContextMixin, PermissionContextMixin, ModelForm):
