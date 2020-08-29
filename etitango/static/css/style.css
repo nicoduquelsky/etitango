@@ -1,0 +1,210 @@
+/*
+Theme Name: ETI
+Theme URI: http://etitango.com.ar
+Description: Custom theme for ETI
+Version: 1.0
+Author URI: https://github.com/schrottgerardo
+
+
+/* ------------------------------ */
+/* ! Contents                     */
+/* -------------------------------
+* 00. Basics Format
+* 01. Scroll
+* 02. BootStrap Extends
+* 03. Magic Class
+* 04. Special ids
+
+
+/* ------------------------------ */
+/* ! 00. Basics Format            */
+/* ------------------------------ */
+body {font: normal 1em/1.5 sans-serif;}
+
+/* ------------------------------ */
+/* ! 01. Scroll                   */
+/* ------------------------------ */
+
+section {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+section::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 80%;
+}
+
+#section03 a {
+  padding-top: 60px;
+}
+#section03 a span {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 46px;
+  height: 46px;
+  margin-left: -23px;
+  border: 1px solid #fff;
+  border-radius: 100%;
+  box-sizing: border-box;
+}
+#section03 a span::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  content: '';
+  width: 16px;
+  height: 16px;
+  margin: -12px 0 0 -8px;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  box-sizing: border-box;
+}
+#section03 a span::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  content: '';
+  width: 44px;
+  height: 44px;
+  box-shadow: 0 0 0 0 rgba(255,255,255,.1);
+  border-radius: 100%;
+  opacity: 0;
+  -webkit-animation: sdb03 3s infinite;
+  animation: sdb03 3s infinite;
+  box-sizing: border-box;
+}
+@-webkit-keyframes sdb03 {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    box-shadow: 0 0 0 60px rgba(255,255,255,.1);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes sdb03 {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    box-shadow: 0 0 0 60px rgba(255,255,255,.1);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.scroll a {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  z-index: 2;
+  display: inline-block;
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  color: #fff;
+  font : normal 400 20px/1 'Josefin Sans', sans-serif;
+  letter-spacing: .1em;
+  text-decoration: none;
+  transition: opacity .3s;
+}
+.scroll a:hover {
+  opacity: .5;
+}
+
+/* ------------------------------ */
+/* ! 02. BootStrap Extends        */
+/* ------------------------------ */
+
+.nav {
+	background-color: transparent;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	z-index: 10;
+}
+
+.nav a {
+	color: white;
+	text-transform: uppercase;
+	font-family: Verdana;
+	font-size: 14px;
+}
+
+.nav li {
+	padding: 0.8em 0.3rem 0 0;
+	background: transparent;
+}
+
+.nav-item:hover {
+	border-bottom: 1px solid white;
+	}
+
+.navbar {
+	display: inherit;
+	padding: 0 1em 0;
+}
+
+.navbar a {
+	color: white;
+	text-transform: title;
+	font-family: Verdana;
+	font-size: 14px;
+}
+
+.navbar li {
+	display: flex;
+	padding: 0em 0 0 0;
+}
+
+.navbar-brand {
+	padding-top: 0;
+}
+
+/* ------------------------------ */
+/* ! 03. Magic class              */
+/* ------------------------------ */
+
+.bg-opacity-30 {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.fill {
+  height: 100vh;
+  overflow: auto;
+}
+
+/* ------------------------------ */
+/* ! 04. Special ids              */
+/* ------------------------------ */
+
+#home-img-2 {
+  position: absolute;
+  left: 10%;
+  bottom: 10%;
+  margin: 2;
+  z-index: 2;
+}
+
+#very-small {
+  font-size: 0.8em;
+}

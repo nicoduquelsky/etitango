@@ -21,7 +21,7 @@ def expenditure_up(request):
                                             description=description, detail=detail, price=price, receipt=receipt
                                             )
             expenditure_item.save()
-            return HttpResponseRedirect('/expenditure/?submitted=True')
+            return HttpResponseRedirect('/expenditure/?submitted=True?')
     else:
         form = ExpenditureForm()
         if 'submitted' in request.GET:
