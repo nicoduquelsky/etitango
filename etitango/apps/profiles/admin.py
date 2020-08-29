@@ -1,17 +1,21 @@
 from django.contrib import admin
 from .models import Profile, User
 
-# class ProfileAdmin(admin.ModelAdmin):
+#Include Profile form in user form. Add and change User in conjuction with  Profile.
+'''Because signals are used, when a user is created a profile is created simultaneously.
+If Profile form is not included in User form, an error is generated with the uniques files in Profile.
+If Profile doesn't have Unique it might not be put as inlines.
+'''
 class ProfileAdminInline(admin.StackedInline):
-    model = Profile
+    model = Profile #Model reference
     can_delete = False
     verbose_name_plural = 'Profile'
-    fk_name = 'email'
+    fk_name = 'email' #Model foreign key
 
     list_display = ('name', 'last_name', 'dni_number', 'updated')
-    list_filter = ('name', 'last_name', 'dni_number')
-    # readonly_fields = ('updated')
-
+    list_filter = ('name', 'last_name', 'dni_number') #Fields to order information in shown list
+    
+    #Fields in admin to edit-add
     fieldsets = (
         (None,{
             'fields' : (('name', 'last_name'), 'avatar', 'updated')
@@ -29,8 +33,8 @@ class ProfileAdminInline(admin.StackedInline):
         }),
     )
 
-# class UserAdmin(admin.ModelAdmin):
 class UserAdmin(admin.ModelAdmin):
+    #Include Profile form in User form
     inlines = [
         ProfileAdminInline,
     ]
@@ -42,10 +46,4 @@ class UserAdmin(admin.ModelAdmin):
         }),
     )
 
-    # def get_inline_instances(self, request, obj=None):
-    #     if not obj:
-    #         return list()
-    #     return super(UserAdmin, self).get_inline_instances(request, obj)
-
-# admin.site.register(Profile, ProfileAdmin)
 admin.site.register(User, UserAdmin)

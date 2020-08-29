@@ -24,6 +24,7 @@ from apps.events.models import Event
 # UTILS
 from utils.defs import CleanAndUpper, PanelContextMixin, PermissionContextMixin
 from utils.tokens import account_activation_token
+from utils.image_utils import reduce_image_size
 
 # SELF
 from .forms import RegisterForm, UserForm, ProfileForm, PhotoForm, GroupMembersForm

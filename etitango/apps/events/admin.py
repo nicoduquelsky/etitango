@@ -4,7 +4,7 @@ from .models import Event, Inscription
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ('staff', 'group', 'eti_name')
-
+    #Fields in admin to edit-add
     fieldsets = (
         (None, {
             'fields' : (('staff', 'group'), 'eti_name', 'description', 

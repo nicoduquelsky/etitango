@@ -22,7 +22,7 @@ class Expenditure(models.Model):
     receipt = models.ImageField(upload_to='receipt/') #Imagen del recibo
 
     def save(self, *args, **kwargs):
-        new_image = reduce_image_size(self.receipt, new_quality=90)
+        new_image = reduce_image_size(self.receipt, new_size=(720, 720))
 
         self.receipt = new_image        
         super().save(*args, **kwargs)
