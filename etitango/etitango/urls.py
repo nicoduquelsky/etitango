@@ -2,8 +2,12 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls import url
-from django.conf.urls.static import static
+#from django.conf.urls.static import static
 from django.contrib.auth.urls import views as auth_views
+
+#For displaying media and static files
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # APPS
 from apps.pages import views as pages
@@ -54,4 +58,12 @@ urlpatterns = [
     ## GROUPS
     path('event/group/edit/', profiles.edit_group_page.as_view(), name='edit_group'),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    ##EXPENDITURE
+    path('expenditure/', include('apps.expenditure.urls')),
+
+] 
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+Create_SuperGroups()

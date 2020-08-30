@@ -49,20 +49,22 @@ def Add_Boss(email):
         bossGroup = Group.objects.get(name="boss")
         newBoss = User.objects.get(email=email)
         newBoss.groups.add(bossGroup)
-        console_log.run(email + "now is a boss!")
+        #console_log.run(email + "now is a boss!")
     except:
-        console_log.warn("something happen, check user groups:")
-        console_log.warn(newBoss.groups.all())
+        pass
+        #console_log.warn("something happen, check user groups:")
+        #console_log.warn(newBoss.groups.all())
 
 def Remove_Boss(email):
     try:
         bossGroup = Group.objects.get(name="boss")
         newBoss = User.objects.get(email=email)
         newBoss.groups.remove(bossGroup)
-        console_log.run(email + " has not perms anymore", "perms")
+        #console_log.run(email + " has not perms anymore", "perms")
     except:
-        console_log.warn("something happen, check user groups:")
-        console_log.warn(newBoss.groups.all())
+        pass
+        #console_log.warn("something happen, check user groups:")
+        #console_log.warn(newBoss.groups.all())
 
 # REVIEW METHODS
 def Add_Review(email):
@@ -73,20 +75,22 @@ def Add_Review(email):
         reviewGroup = Group.objects.get(name="review")
         newReview = User.objects.get(email=email)
         newReview.groups.add(reviewGroup)
-        console_log.run(email + "now is a reviewer!")
+        #console_log.run(email + "now is a reviewer!")
     except:
-        console_log.warn("something happen, check user groups:")
-        console_log.warn(newReview.groups.all())
+        pass
+        #console_log.warn("something happen, check user groups:")
+        #console_log.warn(newReview.groups.all())
 
 def Remove_Review(email):
     try:
         reviewGroup = Group.objects.get(name="review")
         newReview = User.objects.get(email=email)
         newReview.groups.remove(reviewGroup)
-        console_log.run(email + " has not perms anymore", "perms")
+        #console_log.run(email + " has not perms anymore", "perms")
     except:
-        console_log.warn("something happen, check user groups:")
-        console_log.warn(newReview.groups.all())
+        pass
+        #console_log.warn("something happen, check user groups:")
+        #console_log.warn(newReview.groups.all())
 
 
 # ADMIN METHODS
@@ -99,9 +103,10 @@ def DeactivateProfile(email):
         user = User.objects.get(email=email)
         user.is_active = False
         user.save()
-        console_log.run(email + " now will dance alone, forever.... *evil laugh*", "evil laugh")
+        #console_log.run(email + " now will dance alone, forever.... *evil laugh*", "evil laugh")
     except Exception:
-        console_log.warn(email + " repel my powers...")
+        pass
+        #console_log.warn(email + " repel my powers...")
 
 def Create_SuperGroups():
     """
@@ -114,9 +119,10 @@ def Create_SuperGroups():
         for perm in BossGroup_Perms:
             p = Permission.objects.get(codename=perm)
             bossGroup.permissions.add(p)
-        console_log.run("boss Group Created!")
+        #console_log.run("boss Group Created!")
     else:
-        console_log.err("boss created before")
+        pass
+        #console_log.err("boss created before")
 
     if not Group.objects.filter(name="review"):
         Group.objects.create(name="review")
@@ -124,6 +130,7 @@ def Create_SuperGroups():
         for perm in ReviewGroup_Perms:
             p = Permission.objects.get(codename=perm)
             reviewGroup.permissions.add(p)
-        console_log.run("Review Group Created!")
+        #console_log.run("Review Group Created!")
     else:
-        console_log.err("Review created before")
+        pass
+        #console_log.err("Review created before")

@@ -88,11 +88,11 @@ class UserForm(ModelForm):
 
 class ProfileForm(ModelForm):
     country = choices.CountryModelChoiceField(
-        queryset=Country.objects.all())
+        queryset=choices.Country.objects.all(), required=True, label="País")
     province = choices.ProvinceModelChoiceField(
         queryset=Province.objects.all())
     city = choices.CityModelChoiceField(
-        queryset=City.objects.all())
+        queryset=choices.City.objects.all(), required=False, label="Ciudad")
     birth_date = forms.DateField(
         widget=DatePickerInput(), required=True, label="Fecha de Nacimiento")
 
