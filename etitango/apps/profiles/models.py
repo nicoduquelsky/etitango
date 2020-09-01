@@ -66,7 +66,7 @@ class User(PermissionsMixin, AbstractBaseUser):
 class Profile(models.Model):
     def avatar_folder(request, *args, **kargs):
         path = ''.join(random.choice(string.ascii_letters) for x in range(16))
-        path = "profiles/avatars/"+path+".png"
+        path = "profiles/avatars/"+path+".jpeg"
         return path
 
     email               = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)

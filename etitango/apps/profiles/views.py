@@ -24,6 +24,7 @@ from apps.events.models import Event
 # UTILS
 from utils.defs import PanelContextMixin, PermissionContextMixin
 from utils.tokens import account_activation_token
+from utils.image_utils import reduce_image_size
 
 # SELF
 from .forms import RegisterForm, UserForm, ProfileForm, PhotoForm, GroupMembersForm
@@ -157,12 +158,13 @@ class edit_photo_page(PanelContextMixin, UpdateView):
         form = PhotoForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             old_avatar = self.get_object().avatar
+            # delete old file
             old_avatar.delete(False)
-            avatar = Image.open(form.cleaned_data.get('avatar'))
-            avatar = avatar.resize((50, 50), Image.ANTIALIAS)
-            form.instance.profile.avatar = avatar # funciona con  = form.cleaned_data.get('avatar')
+            # use form.cleaned_data.get('avatar')
+            avatar = reduce_image_size(form.cleaned_data.get('avatar'), new_size=(150, 150))
+            form.instance.profile.avatar = avatar
             form.save()
-        return super(edit_photo_page, self).form_valid(form)
+            return super(edit_photo_page, self).form_valid(form)
 
 # GROUP
 class edit_group_page(PanelContextMixin, PermissionContextMixin, FormView):
