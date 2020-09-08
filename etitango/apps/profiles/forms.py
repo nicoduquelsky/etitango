@@ -140,7 +140,7 @@ class PhotoForm(ModelForm):
 
 # GROUPS
 class GroupMembersForm(PanelContextMixin, PermissionContextMixin, ModelForm):
-    members = forms.EmailField(label="editor")
+    members = forms.EmailField(label="editor", required=True)
 
     class Meta:
         model   = Profile
