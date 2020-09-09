@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
-from django.forms import formset_factory
+from django.forms import modelformset_factory, formset_factory
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -25,6 +25,10 @@ from apps.events.models import Event
 from utils.defs import PanelContextMixin, PermissionContextMixin
 from utils.tokens import account_activation_token
 from utils.image_utils import reduce_image_size
+
+# FORMS RENDERING
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Field, ButtonHolder
 
 # SELF
 from .forms import RegisterForm, UserForm, ProfileForm, PhotoForm, GroupMembersForm
@@ -170,16 +174,21 @@ class edit_photo_page(PanelContextMixin, UpdateView):
 class edit_group_page(PanelContextMixin, PermissionContextMixin, FormView):
     permission_required = ('events.add_eventgroup',)
     model = Profile
-    # formset will be useful for a allow to assign few members to the same Evengroup
-    form_class = formset_factory(Profile, formset=GroupMembersForm, extra=2)
+    form_class = formset_factory(form=GroupMembersForm, extra=2)
     success_url = reverse_lazy('profile')
-    template_name   = "groups/create_group_form.html"
+    template_name = "groups/create_group_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        helper = GroupMembersFormSetHelper()
+        helper.form_show_labels = False         # For manually render <form> tags on template
+        #helper.add_input(Submit('submit', 'Confirmar'))    # Uncomment if form_show_labels = True
+        helper.form_tag = False
+        context['helper'] = helper
+        return context
 
     def post(self, *args, **kwargs):
         super().post(*args, **kwargs)
-        """
-            Save each new member
-        """
         user = self.request.user
         form = GroupMembersForm(self.request.POST)
         if form.is_valid():
@@ -187,3 +196,12 @@ class edit_group_page(PanelContextMixin, PermissionContextMixin, FormView):
             _member = User.objects.get(email=form.cleaned_data.get('members'))
             _member.groups.add(_group)
             return super(edit_group_page, self).form_valid(form)
+
+# CRISPY FORMS RENDERING
+class GroupMembersFormSetHelper(FormHelper):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.form_method = 'post'
+        self.layout = Layout(
+            'members',
+        )

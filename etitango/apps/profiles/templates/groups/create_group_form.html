@@ -7,16 +7,18 @@
     <div class="col-sm-6 p-2 my-3 text-center">
       <img id="home-img-1" class="rounded mx-auto d-block" align="middle" src="{% static 'img/h/eti_logo.png' %}" width="35%">
       <h2 class="py-3">Agregar editores</h2>
-      <form id="form" method="POST">
-        {% csrf_token %}
-        <p style="text-align:center"></p>
-        {% load crispy_forms_tags %}
-        {% csrf_token %}
-        {{ form|crispy }}
-        <br>
-        <a href="{% url 'profile' %}"><button type="button" class="btn btn-light p-2">Regresar</button></a>
-        <button type="submit" class="btn btn-success" name="register">Confirmar</button>
-      </form>
+      {% load crispy_forms_tags %}
+        <div>
+        <form method="post" id="addEditorForm">
+          {% crispy form helper %}
+          <div class="form-actions">
+            <a href="{% url 'profile' %}"><button type="button" class="btn btn-light p-2">Regresar</button></a>
+            <input type="submit" name="submit" value="Confirmar" class="btn btn-primary" id="submit-id-submit">
+          </div>
+        </form>
+        </div>
+      <button type="button" id="editorFormaddButton">Add</button>
+      <button type="button" id="editorFormremoveButton">Remove</button>
     </div>
   </div>
 </div>
