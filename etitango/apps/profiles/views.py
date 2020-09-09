@@ -25,7 +25,10 @@ from apps.events.models import Event
 from utils.defs import PanelContextMixin, PermissionContextMixin
 from utils.tokens import account_activation_token
 from utils.image_utils import reduce_image_size
+
+# FORMS RENDERING
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Field, ButtonHolder
 
 # SELF
 from .forms import RegisterForm, UserForm, ProfileForm, PhotoForm, GroupMembersForm
@@ -177,6 +180,9 @@ class edit_group_page(PanelContextMixin, PermissionContextMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         helper = GroupMembersFormSetHelper()
+        helper.form_show_labels = False
+        #helper.add_input(Submit('submit', 'Confirmar'))
+        helper.form_tag = False
         context['helper'] = helper
         return context
 
@@ -195,3 +201,6 @@ class GroupMembersFormSetHelper(FormHelper):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.form_method = 'post'
+        self.layout = Layout(
+            'members',
+        )

@@ -208,3 +208,11 @@ section::after {
 #very-small {
   font-size: 0.8em;
 }
+
+/* ------------------------------ */
+/* ! 05. ???                      */
+/* ------------------------------ */
+
+.asterikField {
+  display:none;
+}
