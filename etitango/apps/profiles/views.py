@@ -180,8 +180,8 @@ class edit_group_page(PanelContextMixin, PermissionContextMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         helper = GroupMembersFormSetHelper()
-        helper.form_show_labels = False
-        #helper.add_input(Submit('submit', 'Confirmar'))
+        helper.form_show_labels = False         # For manually render <form> tags on template
+        #helper.add_input(Submit('submit', 'Confirmar'))    # Uncomment if form_show_labels = True
         helper.form_tag = False
         context['helper'] = helper
         return context
