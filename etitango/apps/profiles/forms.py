@@ -90,7 +90,7 @@ class ProfileForm(ModelForm):
     country = choices.CountryModelChoiceField(
         queryset=choices.Country.objects.all(), required=True, label="País")
     province = choices.ProvinceModelChoiceField(
-        queryset=Province.objects.all(), required=True, label="Provincia")
+        queryset=Province.objects.all(), required=False, label="Provincia")
     city = choices.CityModelChoiceField(
         queryset=choices.City.objects.all(), required=False, label="Ciudad")
     birth_date = forms.DateField(

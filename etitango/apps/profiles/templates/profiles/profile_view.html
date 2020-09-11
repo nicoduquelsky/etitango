@@ -24,7 +24,16 @@
 </div>
 <!-- acciones -->
 <div class="container-fuild row bg-light">
-  <div class="col-sm-3 pt-2">
+       {% if messages %}
+        <div class="row col-lg-12 d-flex justify-content-center align-items-center p-2 m-2">
+          {% for message in messages %}
+          <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+           <strong>{{ message }}</strong>
+            </div>
+           {% endfor %}
+        </div>
+      {% endif %}
+<div class="col-sm-3 pt-2">
     <h4 class="bg-info text-center text-white py-2">Opciones de Usuario</h4>
     <div class="card-deck">
       <div class="card style=" width:400px">
