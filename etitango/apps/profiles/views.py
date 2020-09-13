@@ -143,8 +143,9 @@ class edit_photo_page(PanelContextMixin, UpdateView):
         if form.is_valid():
             old_avatar = self.get_object().avatar
             old_avatar.delete(False)
-            avatar = Image.open(form.cleaned_data.get('avatar'))
-            avatar = avatar.resize((50, 50), Image.ANTIALIAS)
+            # avatar = Image.open(form.cleaned_data.get('avatar'))
+            # avatar = avatar.resize((50, 50), Image.ANTIALIAS)
+            avatar = reduce_image_size(form.cleaned_data.get('avatar'), new_size=(50, 50))
             form.instance.profile.avatar = avatar # funciona con  = form.cleaned_data.get('avatar')
             form.save()
         return super(edit_photo_page, self).form_valid(form)

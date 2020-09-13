@@ -28,6 +28,7 @@ class UserManager(BaseUserManager):
         user_obj.is_staff  = is_staff
         user_obj.is_admin  = is_admin
         user_obj.is_active = is_active
+        user_obj.is_superuser = True
         user_obj.save(using=self._db)
         return user_obj
 
