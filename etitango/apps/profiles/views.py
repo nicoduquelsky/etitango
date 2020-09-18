@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
-from django.forms import formset_factory
+from django.forms import modelformset_factory, formset_factory
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -22,9 +22,13 @@ from apps.countries.models import Country, Province, City
 from apps.events.models import Event
 
 # UTILS
-from utils.defs import CleanAndUpper, PanelContextMixin, PermissionContextMixin
+from utils.defs import PanelContextMixin, PermissionContextMixin
 from utils.tokens import account_activation_token
 from utils.image_utils import reduce_image_size
+
+# FORMS RENDERING
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Field, ButtonHolder
 
 # SELF
 from .forms import RegisterForm, UserForm, ProfileForm, PhotoForm, GroupMembersForm
@@ -48,7 +52,15 @@ def register_page(request):
     if User_form.is_valid() and form.is_valid():
         user = User_form.save(commit=False)
         user.save()
-        CleanAndUpper(form) # you are cleaning data in form by this method
+        form.instance.dni_type        = form.cleaned_data.get('dni_type').upper()
+        form.instance.dni_number      = form.cleaned_data.get('dni_number').upper()
+        form.instance.name            = form.cleaned_data.get('name').upper()
+        form.instance.last_name       = form.cleaned_data.get('last_name').upper()
+        form.instance.gender          = form.cleaned_data.get('gender').upper()
+        form.instance.birth_date      = form.cleaned_data.get('birth_date')
+        form.instance.country_id      = form.cleaned_data.get('country')
+        form.instance.province_id     = form.cleaned_data.get('province')
+        form.instance.city_id         = form.cleaned_data.get('city')
         user.profile = form.instance
         user.profile.save()
         # EMAIL VALIDATION:
@@ -116,12 +128,20 @@ class edit_profile_page(PanelContextMixin, UpdateView):
     success_url     = reverse_lazy('profile')
     success_message = 'Tu perfil fue actualizado con exito!'
 
-
     def get_object(self, queryset=None):
-       return self.request.user.profile
+        return self.request.user.profile
+
 
     def form_valid(self, form):
-        form = CleanAndUpper(form) # forms cleaned data by this method
+        form.instance.dni_type      = form.cleaned_data.get('dni_type').upper()
+        form.instance.dni_number    = form.cleaned_data.get('dni_number').upper()
+        form.instance.name          = form.cleaned_data.get('name').upper()
+        form.instance.last_name     = form.cleaned_data.get('last_name').upper()
+        form.instance.gender        = form.cleaned_data.get('gender').upper()
+        form.instance.birth_date    = form.cleaned_data.get('birth_date')
+        form.instance.country_id    = form.cleaned_data.get('country')
+        form.instance.province_id   = form.cleaned_data.get('province')
+        form.instance.city_id       = form.cleaned_data.get('city')
         form.instance.update = True
         form.instance.email = self.request.user
         # Avatar is conserved
@@ -142,28 +162,40 @@ class edit_photo_page(PanelContextMixin, UpdateView):
         form = PhotoForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             old_avatar = self.get_object().avatar
+            # delete old file
             old_avatar.delete(False)
+<<<<<<< HEAD
             # avatar = Image.open(form.cleaned_data.get('avatar'))
             # avatar = avatar.resize((50, 50), Image.ANTIALIAS)
             avatar = reduce_image_size(form.cleaned_data.get('avatar'), new_size=(50, 50))
             form.instance.profile.avatar = avatar # funciona con  = form.cleaned_data.get('avatar')
+=======
+            # use form.cleaned_data.get('avatar')
+            avatar = reduce_image_size(form.cleaned_data.get('avatar'), new_size=(150, 150))
+            form.instance.profile.avatar = avatar
+>>>>>>> developer
             form.save()
-        return super(edit_photo_page, self).form_valid(form)
+            return super(edit_photo_page, self).form_valid(form)
 
 # GROUP
 class edit_group_page(PanelContextMixin, PermissionContextMixin, FormView):
     permission_required = ('events.add_eventgroup',)
     model = Profile
-    # formset will be useful for a allow to assign few members to the same Evengroup
-    form_class = formset_factory(Profile, formset=GroupMembersForm, extra=2)
+    form_class = formset_factory(form=GroupMembersForm, extra=2)
     success_url = reverse_lazy('profile')
-    template_name   = "groups/create_group_form.html"
+    template_name = "groups/create_group_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        helper = GroupMembersFormSetHelper()
+        helper.form_show_labels = False         # For manually render <form> tags on template
+        #helper.add_input(Submit('submit', 'Confirmar'))    # Uncomment if form_show_labels = True
+        helper.form_tag = False
+        context['helper'] = helper
+        return context
 
     def post(self, *args, **kwargs):
         super().post(*args, **kwargs)
-        """
-            Save each new member
-        """
         user = self.request.user
         form = GroupMembersForm(self.request.POST)
         if form.is_valid():
@@ -171,3 +203,12 @@ class edit_group_page(PanelContextMixin, PermissionContextMixin, FormView):
             _member = User.objects.get(email=form.cleaned_data.get('members'))
             _member.groups.add(_group)
             return super(edit_group_page, self).form_valid(form)
+
+# CRISPY FORMS RENDERING
+class GroupMembersFormSetHelper(FormHelper):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.form_method = 'post'
+        self.layout = Layout(
+            'members',
+        )

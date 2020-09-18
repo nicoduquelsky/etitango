@@ -72,6 +72,4 @@ class EtiModelChoiceField(forms.ModelChoiceField):
         else:
             return False
 
-# INPUTFIELDS
-class DateInput(forms.DateInput):
-    input_type = 'date'
+            

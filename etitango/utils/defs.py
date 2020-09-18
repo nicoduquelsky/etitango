@@ -11,21 +11,6 @@ from apps.events.models import Event
 
 from apps.profiles.models import User, Profile
 
-def CleanAndUpper(form):
-    """
-        Use it when you need to save/update the user.profile forms
-    """
-    form.instance.dni_type        = form.cleaned_data.get('dni_type').upper()
-    form.instance.dni_number      = form.cleaned_data.get('dni_number').upper()
-    form.instance.name            = form.cleaned_data.get('name').upper()
-    form.instance.last_name       = form.cleaned_data.get('last_name').upper()
-    form.instance.gender          = form.cleaned_data.get('gender').upper()
-    form.instance.birth_date      = form.cleaned_data.get('birth_date')
-    form.instance.country_id      = form.cleaned_data.get('country')
-    form.instance.province_id     = form.cleaned_data.get('province')
-    form.instance.city_id         = form.cleaned_data.get('city')
-    return form
-
 # CLASSES
 
 class EventContextMixin(ContextMixin):
