@@ -14,6 +14,7 @@ Author URI: https://github.com/schrottgerardo
 * 02. BootStrap Extends
 * 03. Magic Class
 * 04. Special ids
+* 05. Forms
 
 
 /* ------------------------------ */
@@ -207,4 +208,36 @@ section::after {
 
 #very-small {
   font-size: 0.8em;
+}
+
+/* ------------------------------ */
+/* ! 05. Forms                    */
+/* ------------------------------ */
+
+.floating-btn {
+  width: 25px;
+  height: 25px;
+  background: #009879;
+  display: flex;
+  align-items: center;
+  justify-content: center;;
+  text-decoration: none;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 15px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+  position: absolute;
+  float:right;
+  left: 20px;
+  bottom: 50px;
+  transition: background 0.25s;
+
+  /* button */
+  outline: blue;
+  border: none;
+  cursor: pointer;
+}
+
+.floating-btn:active {
+background: #007063;
 }
