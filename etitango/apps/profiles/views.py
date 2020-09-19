@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login
 from django.forms import formset_factory
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -201,7 +202,6 @@ class edit_photo_page(PanelContextMixin, UpdateView):
     template_name = 'profiles/profile_edit_photo_form.html'
     success_url = reverse_lazy('profile')
 
-    @method_decorator(check_recaptcha)
     def dispatch(self, *args, **kwargs):
 
         return super().dispatch(*args, **kwargs)
@@ -216,21 +216,21 @@ class edit_photo_page(PanelContextMixin, UpdateView):
         context["public_key"] = settings.GOOOGLE_RECAPTCHA_PUBLIC_KEY
         return context
 
-    def form_valid(self, form):
-
-        if self.request.recaptcha_is_valid:
-            # delete old file
+    @method_decorator(check_recaptcha)
+    def post(self, request, *args, **kwargs):
+        form = PhotoForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid() and self.request.recaptcha_is_valid:
             old_avatar = self.get_object().avatar
+            # delete old file
             old_avatar.delete(False)
-            avatar = reduce_image_size(
-                form.cleaned_data.get('avatar'), new_size=(150, 150))
+            # use form.cleaned_data.get('avatar')
+            avatar = reduce_image_size(form.cleaned_data.get('avatar'), new_size=(150, 150))
             form.instance.profile.avatar = avatar
             form.save()
-            messages.success(self.request, _('¡La foto de su perfil fue actualizado con exito!'))
+            messages.success(self.request, _('¡Su foto fue actualizada con exito!'))
             return super(edit_photo_page, self).form_valid(form)
         else:
-            return super(edit_photo_page, self).form_invalid(form)
-
+            return super(edit_photo_page, self).get(form)
 
 class edit_group_page(PanelContextMixin, PermissionContextMixin, FormView):
 
