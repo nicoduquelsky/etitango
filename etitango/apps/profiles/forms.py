@@ -94,7 +94,7 @@ class ProfileForm(ModelForm):
     city = choices.CityModelChoiceField(
         queryset=choices.City.objects.all(), required=False, label="Ciudad")
     birth_date = forms.DateField(
-        widget=DatePickerInput(), required=True, label="Fecha de Nacimiento")
+        widget=DatePickerInput(), input_formats=['%m/%d/%Y'], required=True, label="Fecha de Nacimiento")
 
     class Meta:
         model = Profile

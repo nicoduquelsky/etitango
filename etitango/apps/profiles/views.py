@@ -104,6 +104,7 @@ def register_page(request):
         return redirect('register_done')
 
     else:
+        print(profile_form.data)
         form = RegisterForm()
 
     return render(request, 'registration/register_form.html', context)
