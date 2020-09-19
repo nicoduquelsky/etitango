@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div id="done" class="container-fluid bg-light fill">
+<div class="container-fluid bg-light fill">
+       {% if messages %}
+        <div class="row d-flex justify-content-center p-2 m-2">
+          {% for message in messages %}
+          <div class="col-lg-4 alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+           <strong>{{ message }}</strong>
+          </div>
+           {% endfor %}
+        </div>
+      {% endif %}
   <div class="row d-flex center p-0">
     <div class="col-sm-3 p-2 my-3"></div>
     <div class="col-sm-6 p-2 my-3 text-center">
@@ -11,9 +20,16 @@
         <p style="text-align:center"></p>
         {% csrf_token %}
         {{ form }}
-        <br>
-        <a href="{% url 'profile' %}"><button type="button" class="btn btn-light p-2">Regresar</button></a>
-        <button type="submit" class="btn btn-success" name="avatar">Confirmar</button>
+        <div class="row col-lg-12 d-flex justify-content-center align-items-center">
+          <script src='https://www.google.com/recaptcha/api.js'></script>
+          <div class="col-md-6 d-flex justify-content-center">
+            <div class="g-recaptcha" data-sitekey="{{ public_key }}"></div>
+          </div>
+          <div class="col-md-6 d-flex justify-content-center">
+            <a href="{% url 'profile' %}"><button type="button" class="btn btn-secundary p-2 m-1">Regresar</button></a>
+            <button type="submit" class="btn btn-success p-2 m-1" name="confirm">Confirmar</button>
+          </div>
+        </div>
       </form>
     </div>
   </div>

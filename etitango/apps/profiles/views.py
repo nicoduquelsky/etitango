@@ -27,6 +27,7 @@ from apps.events.models import Event
 from utils.defs import PanelContextMixin, PermissionContextMixin
 from utils.tokens import account_activation_token
 from utils.image_utils import reduce_image_size
+from utils.widgets import check_recaptcha
 
 # FORMS RENDERING
 from crispy_forms.helper import FormHelper
@@ -42,6 +43,8 @@ User = get_user_model()
 
 # REGISTER
 
+
+@check_recaptcha
 def register_page(request):
     """
     TO DO: Rewrite it as Class View
@@ -52,8 +55,9 @@ def register_page(request):
     context = {
         "user_form": user_form,
         "profile_form": profile_form,
+        "public_key": settings.GOOOGLE_RECAPTCHA_PUBLIC_KEY,
     }
-    if user_form.is_valid() and profile_form.is_valid():
+    if user_form.is_valid() and profile_form.is_valid() and request.recaptcha_is_valid:
         profile_form.instance.dni_type = profile_form.cleaned_data.get(
             'dni_type').upper()
         profile_form.instance.dni_number = profile_form.cleaned_data.get(
@@ -152,6 +156,7 @@ class edit_profile_page(PanelContextMixin, UpdateView):
     success_url = reverse_lazy('profile')
     success_message = 'Tu perfil fue actualizado con exito!'
 
+    @method_decorator(check_recaptcha)
     def dispatch(self, *args, **kwargs):
 
         return super().dispatch(*args, **kwargs)
@@ -163,28 +168,35 @@ class edit_profile_page(PanelContextMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
 
         context = super().get_context_data(**kwargs)
+        context["public_key"] = settings.GOOOGLE_RECAPTCHA_PUBLIC_KEY
         return context
 
     def form_valid(self, form):
-        form.instance.dni_type = form.cleaned_data.get('dni_type').upper()
-        form.instance.dni_number = form.cleaned_data.get(
-            'dni_number').upper()
-        form.instance.name = form.cleaned_data.get('name').upper()
-        form.instance.last_name = form.cleaned_data.get(
-            'last_name').upper()
-        form.instance.gender = form.cleaned_data.get('gender').upper()
-        form.instance.birth_date = form.cleaned_data.get('birth_date')
-        form.instance.country_id = form.cleaned_data.get('country')
-        form.instance.province_id = form.cleaned_data.get('province')
-        form.instance.city_id = form.cleaned_data.get('city')
-        form.instance.update = True
-        form.instance.email = self.request.user
-        # Avatar is conserved
-        form.instance.avatar = Profile.objects.get(
-            email=form.instance.email).avatar
-        form.save()
-        messages.success(self.request, _('¡Su perfil fue actualizado con exito!'))
-        return super(edit_profile_page, self).form_valid(form)
+
+        if self.request.recaptcha_is_valid:
+            form.instance.dni_type = form.cleaned_data.get('dni_type').upper()
+            form.instance.dni_number = form.cleaned_data.get(
+                'dni_number').upper()
+            form.instance.name = form.cleaned_data.get('name').upper()
+            form.instance.last_name = form.cleaned_data.get(
+                'last_name').upper()
+            form.instance.gender = form.cleaned_data.get('gender').upper()
+            form.instance.birth_date = form.cleaned_data.get('birth_date')
+            form.instance.country_id = form.cleaned_data.get('country')
+            form.instance.province_id = form.cleaned_data.get('province')
+            form.instance.city_id = form.cleaned_data.get('city')
+            form.instance.update = True
+            form.instance.email = self.request.user
+            # Avatar is conserved
+            form.instance.avatar = Profile.objects.get(
+                email=form.instance.email).avatar
+            form.save()
+            messages.success(self.request, _('¡Su perfil fue actualizado con exito!'))
+            return super(edit_profile_page, self).form_valid(form)
+
+        else:
+            return self.form_invalid(form)
+
 
 class edit_photo_page(PanelContextMixin, UpdateView):
 
@@ -204,12 +216,13 @@ class edit_photo_page(PanelContextMixin, UpdateView):
     def get_context_data(self, *args, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        
+        context["public_key"] = settings.GOOOGLE_RECAPTCHA_PUBLIC_KEY
         return context
 
+    @method_decorator(check_recaptcha)
     def post(self, request, *args, **kwargs):
         form = PhotoForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
+        if form.is_valid() and self.request.recaptcha_is_valid:
             old_avatar = self.get_object().avatar
             # delete old file
             old_avatar.delete(False)

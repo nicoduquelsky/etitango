@@ -1,8 +1,9 @@
 Django==3.0.8
-django-crispy-forms==1.9.1
-python-decouple==3.3
-psycopg2-binary==2.8
+django-crispy-forms
+django-mysql
 mysqlclient
-django-mysql==2.2.0
+python-decouple
+psycopg2-binary
+Requests
 Pillow
 six
