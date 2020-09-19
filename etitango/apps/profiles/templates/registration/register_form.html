@@ -10,8 +10,8 @@
       <form method="post" id="register-form" data-provinces-url="{% url 'ajax_load_provinces' %}" data-cities-url="{% url 'ajax_load_cities' %}" novalidate>
         {% load crispy_forms_tags %}
         {% csrf_token %}
-        {{ form|crispy }}
-        {{ porm|crispy }}
+        {{ user_form|crispy }}
+        {{ profile_form|crispy }}
         <a href="/#login"><button type="button" class="btn btn-light p-2">Regresar</button></a>
         <button type="submit" class="btn btn-success" name="register">Registrarse</button>
       </form>
