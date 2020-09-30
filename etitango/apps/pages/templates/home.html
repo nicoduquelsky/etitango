@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<!-- <script>function redirect(){window.location.href = "{% url 'profile' %}";}setTimeout(redirect, 0);</script> -->
 <div id="home-start" class="container-fuild d-flex align-items-center justify-content-center p-0">
   <img id="home-img-1" class="img-fluid" src="{% static 'img/h/login-background.jpg' %}">
   <img id="home-img-2" class="img-fluid" src="{% static 'img/h/eti_logo_bw.png' %}" width="15%">
@@ -36,10 +35,10 @@
         {% load crispy_forms_tags %}
         {% csrf_token %}
         {{ form|crispy }}
-        <a href="register"><button type="button" class="btn btn-light p-2">Registrarse</button></a>
+        <a href="{% url 'register' %}"><button type="button" class="btn btn-light p-2">Registrarse</button></a>
         <button type="submit" class="btn btn-success">Ingresar</button>
       </form>
-      <a href="password_reset"><button type="button" class="btn btn-light p-2">¿Has olvidado tu contraseña?</button></a>
+      <a href="{% url 'password_reset' %}"><button type="button" class="btn btn-light p-2">¿Has olvidado tu contraseña?</button></a>
     </div>
   </div>
 </div>
