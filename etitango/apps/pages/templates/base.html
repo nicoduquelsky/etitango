@@ -30,9 +30,9 @@
     <div id="home-nav" class="container-fluid p-0">
       <ul class="nav bg-opacity-30">
         <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'historia' %}">Historia</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'manifiesto' %}">Manifiesto</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'protocolo' %}">Protocolo</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'history' %}">Historia</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'manifest' %}">Manifiesto</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'protocol' %}">Protocolo</a></li>
         <li class="ml-auto d-flex flex-column">
           <form method="post" class="text-light" novalidate>
             {% csrf_token %}

@@ -139,7 +139,7 @@ def activate(request, uidb64, token):
         return render(request, "registration/register_confirm.html", {})
 
 
-class view_profile_page(PanelContextMixin, TemplateView):
+class ProfileView(PanelContextMixin, TemplateView):
 
     model = Profile
     success_url = reverse_lazy('profile')
@@ -147,7 +147,7 @@ class view_profile_page(PanelContextMixin, TemplateView):
     title = _("Welcome, ")
 
 
-class edit_profile_page(PanelContextMixin, UpdateView):
+class ProfileEditView(PanelContextMixin, UpdateView):
 
     model = Profile
     form_class = ProfileForm
@@ -194,13 +194,13 @@ class edit_profile_page(PanelContextMixin, UpdateView):
                 email=form.instance.email).avatar
             form.save()
             messages.success(self.request, _('¡Su perfil fue actualizado con exito!'))
-            return super(edit_profile_page, self).form_valid(form)
+            return super().form_valid(form)
 
         else:
             return self.form_invalid(form)
 
 
-class edit_photo_page(PanelContextMixin, UpdateView):
+class ProfileEditPhotoView(PanelContextMixin, UpdateView):
 
     model = Profile
     form_class = PhotoForm
@@ -233,11 +233,11 @@ class edit_photo_page(PanelContextMixin, UpdateView):
             form.instance.profile.avatar = avatar
             form.save()
             messages.success(self.request, _('¡Su foto fue actualizada con exito!'))
-            return super(edit_photo_page, self).form_valid(form)
+            return super().form_valid(form)
         else:
-            return super(edit_photo_page, self).get(form)
+            return super().get(form)
 
-class edit_group_page(PanelContextMixin, PermissionContextMixin, FormView):
+class GroupEditView(PanelContextMixin, PermissionContextMixin, FormView):
 
     permission_required = ('events.add_eventgroup',)
     model = Profile
@@ -264,7 +264,7 @@ class edit_group_page(PanelContextMixin, PermissionContextMixin, FormView):
             _member = User.objects.get(email=form.cleaned_data.get('members'))
             _member.groups.add(_group)
             messages.success(self.request, _('¡Su grupo fue actualizado con exito!'))
-            return super(edit_group_page, self).form_valid(form)
+            return super().form_valid(form)
 
 # CRISPY FORMS RENDERING
 class GroupMembersFormSetHelper(FormHelper):

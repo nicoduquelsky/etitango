@@ -16,7 +16,8 @@ from .models import Event, Inscription, EventGroup
 EVENT_FIELDS = ['eti_name', 'description', 'begin_date', 'country',
                 'province', 'city', 'open_date', 'close_date',  'register_limit', ]
 INSCRIPTION_FIELDS = ['rol', 'food', 'transportation',
-                      'number_underage', 'arrival_date', 'leave_date', 'help_with', 'extra_details'] # 'eti' was removed
+                      'number_underage', 'arrival_date', 'leave_date', 'help_with', 'extra_details']  # 'eti' was removed
+
 
 class EventForm(PanelContextMixin, PermissionContextMixin, ModelForm):
     # Only Boss Users can access.
@@ -32,10 +33,9 @@ class EventForm(PanelContextMixin, PermissionContextMixin, ModelForm):
     open_date = DateField(widget=DatePickerInput())
     close_date = DateField(widget=DatePickerInput())
 
-
     class Meta:
-        model   = Event
-        fields  = EVENT_FIELDS
+        model = Event
+        fields = EVENT_FIELDS
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -85,25 +85,30 @@ class EventForm(PanelContextMixin, PermissionContextMixin, ModelForm):
 
             if not Event.objects.filter(staff=self.instance.staff):
                 EventGroup.objects.save(name=event.eti_name)
-                event.group = EventGroup.objects.get(name__iexact=event.eti_name)
+                event.group = EventGroup.objects.get(
+                    name__iexact=event.eti_name)
                 event.save()
             else:
-                event = Event.objects.filter(staff_id__exact=self.instance.staff_id).update(**self.cleaned_data)
+                event = Event.objects.filter(
+                    staff_id__exact=self.instance.staff_id).update(**self.cleaned_data)
 
         return event
+
 
 class EventActiveForm(PanelContextMixin, PermissionContextMixin, ModelForm):
     permission_required = ('event.change_event',)
     active = BooleanField(required=True, label="¡Activar evento!")
 
     class Meta:
-        model  = Event
+        model = Event
         fields = ('active',)
 
     def save(self, commit=False):
         if Event.objects.filter(staff=self.instance.staff):
-            event = Event.objects.filter(staff_id__exact=self.instance.staff_id).update(active=True)
+            event = Event.objects.filter(
+                staff_id__exact=self.instance.staff_id).update(active=True)
         return event
+
 
 class InscriptionForm(PanelContextMixin, ModelForm):
     """
@@ -117,8 +122,8 @@ class InscriptionForm(PanelContextMixin, ModelForm):
     close_date = DateField(widget=DatePickerInput())
 
     class Meta:
-        model   = Inscription
-        fields  = INSCRIPTION_FIELDS
+        model = Inscription
+        fields = INSCRIPTION_FIELDS
         widgets = {
-                    'extra_details': Textarea(),
-         }
+            'extra_details': Textarea(),
+        }
