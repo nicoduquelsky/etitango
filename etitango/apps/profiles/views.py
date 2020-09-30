@@ -155,24 +155,26 @@ class edit_profile_page(PanelContextMixin, UpdateView):
     title = _("Edit your Profile")
     success_url = reverse_lazy('profile')
     success_message = 'Tu perfil fue actualizado con exito!'
-
+    
     @method_decorator(check_recaptcha)
     def dispatch(self, *args, **kwargs):
-
         return super().dispatch(*args, **kwargs)
 
     def get_object(self, queryset=None):
-
         return self.request.user.profile
 
     def get_context_data(self, *args, **kwargs):
-
         context = super().get_context_data(**kwargs)
+        if 'profile' in context:
+            try:
+                country_id = context['profile'].country_id
+                context['country'] = country_id
+            except(ValueError, TypeError):
+                pass
         context["public_key"] = settings.GOOOGLE_RECAPTCHA_PUBLIC_KEY
         return context
-
+    
     def form_valid(self, form):
-
         if self.request.recaptcha_is_valid:
             form.instance.dni_type = form.cleaned_data.get('dni_type').upper()
             form.instance.dni_number = form.cleaned_data.get(
