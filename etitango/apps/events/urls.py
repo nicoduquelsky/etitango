@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from apps.profiles.views import edit_group_page
+from apps.profiles.views import GroupEditView
 
 urlpatterns = [
     path('create/', views.CreateEventView.as_view(), name='create_event'),
@@ -19,5 +19,5 @@ urlpatterns += [
 
 ## GROUPS
 urlpatterns += [
-    path('group/edit/', edit_group_page.as_view(), name='edit_group'),
+    path('group/edit/', GroupEditView.as_view(), name='edit_group'),
 ]

@@ -32,9 +32,9 @@ urlpatterns = [
     # PATHS
     path('', pages.HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
-    path('historia', pages.HistoriaView.as_view(), name='historia'),
-    path('manifiesto', pages.ManifiestoView.as_view(), name='manifiesto'),
-    path('protocolo', pages.ProtocoloView.as_view(), name='protocolo'),
+    path('history/', pages.HistoryView.as_view(), name='history'),
+    path('manifest/', pages.ManifestView.as_view(), name='manifest'),
+    path('protocol/', pages.ProtocolView.as_view(), name='protocol'),
 
     ## PROFILES
     url('^', include('django.contrib.auth.urls')),
