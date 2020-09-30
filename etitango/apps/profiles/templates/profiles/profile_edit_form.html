@@ -37,6 +37,7 @@
     </div>
 
     <script>
+      $("#id_country").val({{ country }});
       $("#id_country").change(function() {
         var url = $("#edit_profile_form").attr("data-provinces-url");
         var countryId = $(this).val();
@@ -45,14 +46,12 @@
           data: {
             'country': countryId
           },
-          success: function(data) {
-            $("#id_province").html(data);
+          success: function(result) {
+            $("#id_province").html(result);
           }
         });
       });
-    </script>
-
-    <script>
+      
       $("#id_province").change(function() {
         var url = $("#edit_profile_form").attr("data-cities-url");
         var provinceId = $(this).val();
