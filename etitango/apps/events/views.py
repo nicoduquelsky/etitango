@@ -101,6 +101,6 @@ class InscriptionView(PanelContextMixin, FormView):
         return super().form_valid(form)
 
 
-class InscriptionView(PanelContextMixin, TemplateView):
+class InscriptionDoneView(PanelContextMixin, TemplateView):
     template_name = 'inscription_done.html'
     title = ('Inscription done')
