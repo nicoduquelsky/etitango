@@ -38,7 +38,7 @@ urlpatterns = [
 
     ## PROFILES
     url('^', include('django.contrib.auth.urls')),
-    path('register/done/', profiles.register_done_page.as_view(), name='register_done'),
+    path('register/done/', profiles.RegisterDoneView.as_view(), name='register_done'),
     path('register/', profiles.register_page, name='register'),
     
     path('accounts/', include('apps.profiles.urls')),

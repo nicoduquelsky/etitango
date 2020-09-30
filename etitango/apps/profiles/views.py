@@ -109,7 +109,7 @@ def register_page(request):
     return render(request, 'registration/register_form.html', context)
 
 
-class register_done_page(View):
+class RegisterDoneView(View):
 
     def get(self, request):
 
