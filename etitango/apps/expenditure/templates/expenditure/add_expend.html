@@ -10,7 +10,7 @@
         El gasto se cargó exitosamente.
     </p>
     {% else %}
-    <form action="/expenditure/" enctype="multipart/form-data" method="POST" novalidate>
+    <form action="/expenditure/add/" enctype="multipart/form-data" method="POST" novalidate>
         <table>
             {{ form.as_table }}
             <tr>
