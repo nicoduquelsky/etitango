@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Blog
 
-# Register your models here.
+#Doesn't change anything. For future implementation
+class BlogAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Blog, BlogAdmin)

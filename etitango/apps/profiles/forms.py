@@ -6,9 +6,12 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import gettext as _
 
 # APPS
-from apps.data import choices
-from apps.data.models import Province, Country, City
-from apps.data.defs import PanelContextMixin, PermissionContextMixin
+from apps.countries.models import Province, Country, City
+
+# UTILS
+from utils import choices
+from utils.defs import PanelContextMixin, PermissionContextMixin
+from utils.widgets import DatePickerInput
 
 # SELF
 from .models import User, Profile
@@ -84,50 +87,40 @@ class UserForm(ModelForm):
         fields = ('email', )
 
 class ProfileForm(ModelForm):
-    # Locations work with data.choices
     country = choices.CountryModelChoiceField(
-        queryset=choices.Country.objects.all(), required=False, label="País")
+        queryset=choices.Country.objects.all(), required=True, label="País")
     province = choices.ProvinceModelChoiceField(
-        queryset=choices.Province.objects.all(), required=False, label="Provincia")
+        queryset=Province.objects.all(), required=False, label="Provincia")
     city = choices.CityModelChoiceField(
         queryset=choices.City.objects.all(), required=False, label="Ciudad")
+    birth_date = forms.DateField(
+        widget=DatePickerInput(), input_formats=['%m/%d/%Y'], required=True, label="Fecha de Nacimiento")
 
     class Meta:
         model = Profile
         fields = PROFILES_FIELDS
-        widgets = {
-            'birth_date': choices.DateInput(),
-        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Location fields work with scripts in the template level.
-        self.fields['province'].queryset = Province.objects.none()
-        self.fields['city'].queryset = City.objects.none()
 
         if 'country' in self.data:
-            if 'country' in self.data == 'NULL':
-                self.fields['city'].queryset = City.objects.none()
-                return
             try:
-                country_id = int(self.data.get('country'))
-                countryMid = Country.objects.get(id=country_id).country_id
+                country_id = Country.objects.get(
+                    id=int(self.data.get('country'))).country_id
                 self.fields['province'].queryset = Province.objects.filter(
-                    country_id=countryMid).order_by('province_name')
+                    country_id=country_id).order_by('province_name')
             except (ValueError, TypeError):
                 pass
 
             if 'province' in self.data:
-                if 'province' in self.data == 'NULL':
-                    self.fields['city'].queryset = City.objects.none()
-                    return
                 try:
-                    province_id = int(self.data.get('province'))
-                    provinceMid = Province.objects.get(id=province_id)
+                    province_id = Province.objects.get(
+                        id=int(self.data.get('province')))
                     self.fields['city'].queryset = City.objects.filter(
-                        province_id=provinceMid).order_by('city_name')
+                        province_id=province_id).order_by('city_name')
                 except (ValueError, TypeError):
                     pass
+
 
 class PhotoForm(ModelForm):
     avatar = forms.ImageField()
@@ -136,9 +129,10 @@ class PhotoForm(ModelForm):
         model = Profile
         fields = ('avatar',)
 
+
 # GROUPS
 class GroupMembersForm(PanelContextMixin, PermissionContextMixin, ModelForm):
-    members = forms.EmailField(label="editor")
+    members = forms.EmailField(label="editor", required=True)
 
     class Meta:
         model   = Profile

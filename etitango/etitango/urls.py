@@ -2,15 +2,21 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls import url
-from django.conf.urls.static import static
+#from django.conf.urls.static import static
 from django.contrib.auth.urls import views as auth_views
+
+#For displaying media and static files
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # APPS
 from apps.pages import views as pages
 from apps.profiles import views as profiles
 from apps.events import views as events
 from apps.blog import views as blog
-from apps.data import views as data
+from apps.countries import views as countries
+from utils.perms import  EventGroup_Perms, BossGroup_Perms, Create_SuperGroups
+
 
 urlpatterns = [
     # TOKENS
@@ -18,38 +24,35 @@ urlpatterns = [
         profiles.activate, name='activate'),
 
     # AJAX
-    path('ajax/load-provinces/', data.load_provinces, name='ajax_load_provinces'),
-    path('ajax/load-cities/', data.load_cities, name='ajax_load_cities'),
+    path('ajax/load-provinces/', countries.load_provinces,
+         name='ajax_load_provinces'),
+    path('ajax/load-cities/', countries.load_cities,
+         name='ajax_load_cities'),
 
     # PATHS
     path('', pages.HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
-    path('historia', pages.HistoriaView.as_view(), name='historia'),
-    path('manifiesto', pages.ManifiestoView.as_view(), name='manifiesto'),
-    path('protocolo', pages.ProtocoloView.as_view(), name='protocolo'),
+    path('history/', pages.HistoryView.as_view(), name='history'),
+    path('manifest/', pages.ManifestView.as_view(), name='manifest'),
+    path('protocol/', pages.ProtocolView.as_view(), name='protocol'),
 
     ## PROFILES
     url('^', include('django.contrib.auth.urls')),
-    path('register/done/', profiles.register_done_page.as_view(), name='register_done'),
+    path('register/done/', profiles.RegisterDoneView.as_view(), name='register_done'),
     path('register/', profiles.register_page, name='register'),
-    path('accounts/profile/', profiles.view_profile_page.as_view(), name='profile'),
-    path('accounts/profile/edit/', profiles.edit_profile_page.as_view(), name='edit_profile'),
-    path('accounts/profile/edit/photo/', profiles.edit_photo_page.as_view(), name='edit_photo'),
+    
+    path('accounts/', include('apps.profiles.urls')),
 
     ## EVENTS
-    path('event/create/', events.create_event_page.as_view(), name='create_event'),
-    path('event/edit/', events.edit_event_page.as_view(), name='edit_event'),
-    path('event/active/', events.active_event_page.as_view(), name='active_event'),
-    path('event/active/done/', events.done_active_event_page.as_view(), name='active_event_done'),
-    path('event/view/', events.view_event_page.as_view(), name='view_event'),
-    path('event/done/', events.done_event_page.as_view(), name='event_done'),
+    path('event/', include('apps.events.urls')),
     path('blog/', blog.BlogView.as_view(), name='blog'),
 
-    ## INSCRIPTIONS
-    path('event/inscription/', events.new_inscription_page.as_view(), name='new_inscription'),
-    path('event/inscription/done/', events.inscription_done_page.as_view(), name='inscription_done'),
+    ##EXPENDITURE
+    path('expenditure/', include('apps.expenditure.urls')),
 
-    ## GROUPS
-    path('event/group/edit/', profiles.edit_group_page.as_view(), name='edit_group'),
+] 
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+Create_SuperGroups()

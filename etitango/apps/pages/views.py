@@ -4,17 +4,17 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import AuthenticationForm
 
 # APPS
-from apps.data.defs import EventContextMixin
+from utils.defs import EventContextMixin
 
 # Home.
 class HomeView(EventContextMixin, LoginView):
     template_name = 'home.html'
 
-class HistoriaView(EventContextMixin, LoginView):
-    template_name =  "historia.html"
+class HistoryView(EventContextMixin, LoginView):
+    template_name =  "history.html"
 
-class ProtocoloView(EventContextMixin, LoginView):
-    template_name = "protocolo_genero_ETI.html"
+class ProtocolView(EventContextMixin, LoginView):
+    template_name = "protocol.html"
 
-class ManifiestoView(EventContextMixin, LoginView):
-    template_name = "manifiesto_etiano.html"
+class ManifestView(EventContextMixin, LoginView):
+    template_name = "manifiest.html"

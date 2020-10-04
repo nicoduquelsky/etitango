@@ -9,8 +9,10 @@ import string
 from etitango.settings import MEDIA_URL
 
 # APPS
-from apps.data import choices
-from apps.data.models import City, Country, Province
+from apps.countries.models import City, Country, Province
+
+# UTILS
+from utils import choices
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, is_admin=False, is_staff=False, is_active=True):
@@ -26,6 +28,7 @@ class UserManager(BaseUserManager):
         user_obj.is_staff  = is_staff
         user_obj.is_admin  = is_admin
         user_obj.is_active = is_active
+        user_obj.is_superuser = True
         user_obj.save(using=self._db)
         return user_obj
 
@@ -37,16 +40,17 @@ class UserManager(BaseUserManager):
         )
         return user
 
-    def create_superuser(self, email, password=None):
+    def create_superuser(self, email, password=None, is_superuser=None):
         user = self.create_user(
             email,
             password=password,
             is_staff=True,
-            is_admin=True # Work like staff
+            is_admin=True, # Work like staff
+            is_active=True,
         )
         return user
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(PermissionsMixin, AbstractBaseUser):
     email              = models.EmailField(max_length=255, unique=True)
     is_active          = models.BooleanField(default=False) # MUST BE FALSE. We active account after email confirmation.
     is_staff           = models.BooleanField(default=False) # PGP members could be staff in future
@@ -63,7 +67,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     def avatar_folder(request, *args, **kargs):
         path = ''.join(random.choice(string.ascii_letters) for x in range(16))
-        path = "profiles/avatars/"+path+".png"
+        path = "profiles/avatars/"+path+".jpeg"
         return path
 
     email               = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -74,9 +78,9 @@ class Profile(models.Model):
     dni_number          = models.CharField(max_length=11, unique=True, verbose_name="Numero de Documento") #  UNIQUE !! PASSSAPORT need CharField;
     birth_date          = models.DateField(blank=True, verbose_name="Fecha de Nacimiento", default="1900-1-1")   # Date, not DateTime.
     gender              = models.CharField(max_length=1, choices=choices.GENDER_CHOICES, verbose_name="Género")
-    country             = models.ForeignKey(Country, on_delete=models.SET_NULL, to_field='country_id', null=True, verbose_name="País")
-    province            = models.ForeignKey(Province, on_delete=models.SET_NULL, to_field='id', null=True, verbose_name="Provincia")
-    city                = models.ForeignKey(City, on_delete=models.SET_NULL, to_field='id', null=True, verbose_name="ciudad")
+    country             = models.ForeignKey(Country, on_delete=models.SET_NULL, to_field='country_id', null=True, blank=True, verbose_name="País")
+    province            = models.ForeignKey(Province, on_delete=models.SET_NULL, to_field='id', null=True, blank=True, verbose_name="Provincia")
+    city                = models.ForeignKey(City, on_delete=models.SET_NULL, to_field='id', null=True, blank=True, verbose_name="ciudad")
     avatar              = models.ImageField(upload_to=avatar_folder, blank=True, default="profiles/avatar.jpg", verbose_name="Foto de Perfil")
 
     def get_full_name(self):
