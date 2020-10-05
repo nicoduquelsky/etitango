@@ -1,60 +1,205 @@
-{% extends 'base.html' %}
+{% extends 'base.html'%}
 {% load static %}
 {% block content %}
-<div id="home-start" class="container-fuild d-flex align-items-center justify-content-center p-0">
-  <img id="home-img-1" class="img-fluid" src="{% static 'img/h/login-background.jpg' %}">
-  <img id="home-img-2" class="img-fluid" src="{% static 'img/h/eti_logo_bw.png' %}" width="15%">
-  <section id="section03" class="scroll">
-    <a href="#event"><span></span>deslizar</a>
+
+  <!--================ETI Banner Area Start =================-->
+  <section class="hero-banner">
+    <div class="container text-center">
+      <!-- <img src="img/icon/eti_tango_icon.png" alt="tango_dancers_icon"> -->
+      <p>26 - 28  Marzo, 2021, A designar</p>
+      <h1>ReencuentrETI</h1>
+    </div>
   </section>
-</div>
-<div id="event" class="container-fluid">
-  <div class="row d-flex center p-0">
-    <div class="col-sm-3 p-2 my-3"></div>
-    <div class="col-sm-6 p-2 my-3 text-center">
+  <!--================ETI Banner Area End =================-->
 
-      {% include 'event_details.html' %}
+
+  <!--================ Invitation section Start =================-->
+  <section class="section-padding--small bg-gray">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 align-self-center mb-5 mb-lg-0">
+          <div class="innovative-wrapper">
+            <h3 class="primary-text">
+              ReencuentrETI <br class="d-none d-xl-block"> 
+              "la vuelta a los abrazos" 2021</h3>
+            <p class="h4 primary-text2 mb-3">Despues de un parate... volvemos a las pistas!</p>
+            <p> Toda esta experiencia vivida nos hizo crecer y renovarnos, por eso te esperamos en 
+              esta nueva edicion del ETI, para reir, bailar y abrazarnos a mas no poder.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-6 pl-xl-5">
+          <ul class="clockdiv text-center" id="clockdiv">
+            <li class="clockdiv-single clockdiv-day">
+              <h1 class="days">320</h1>
+              <span class="smalltext">Dias</span>
+            </li>
+            <li class="clockdiv-single clockdiv-hour">
+              <h1 class="hours">30</h1>
+              <span class="smalltext">Horas</span>
+            </li>
+            <li class="clockdiv-single clockdiv-minute">
+              <h1 class="minutes">30</h1>
+              <span class="smalltext">Minutos</span>
+            </li>
+          </ul>         
+          <div class="clockdiv-content text-center">
+            <p class="h4 primary-text2 mb-2">Marzo 26 - 28, 2021 en un lugar misterioso</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================ Invitation End =================-->
+
+
+  <!-- ================ Join section Start =================-->
+  <section class="section-margin">
+    <div class="container">
+      <div class="section-intro text-center pb-98px">
+        <p class="section-intro__title">El paso a paso etiano</p>
+        <h2 class="primary-text">Como anotarse al ETI?</h2>
+        <img src="{% static 'img/home/section-style.png' %}" alt="">
+      </div>
+
+      <div class="d-lg-flex justify-content-between">
+        <div class="card-feature mb-5 mb-lg-0">
+          <div class="feature-icon">
+            <i class="far fa-address-card"></i>
+          </div>
+          <h3>Create una cuenta y verifica tu email</h3>
+          <p>Desde tu cuenta etiana vas apoder configurar tus datos personales y anotarte a cada evento.</p> 
+          <p>Cada ETIan@ debe tener la suya, aunque vengas en pareja!
+          <p>Acordate de utizar una cuenta de mail que uses con frecuencia! </p>
+        </div>
+
+        <div class="card-feature mb-5 mb-lg-0">
+          <div class="feature-icon">
+            <i class="fab fa-searchengin"></i>
+          </div>
+          <h3>Busca el proximo ETI</h3>
+          <p>Una vez que hayas validado tu usuario vas a poder ver las fechas de apertura y condiciones de inscripcion.</p>
+          <p>Recorda que la inscripcion es individual, lo mismo que el pago del "combo etian@".
+        </div>
+
+        <div class="card-feature mb-5 mb-lg-0">
+          <div class="feature-icon">
+            <i class="fas fa-shoe-prints" style="transform:rotate(-90deg)"></i><!--https://thenounproject.com/search/?q=tango&i=343-->
+          </div>
+          <h3>Que es y que incluye el "combo etian@"</h3>
+          <p> El combo es la colaboración que todos ponemos para que el ETI se pueda llevar a cabo. NO ES EL PAGO DE UN SERVICIO.
+              El dinero recaudado se utiliza para garantizar las AMO (Actividades Mínimas Obligatorias) incluidas en el manifiesto 
+              del ETI.            
+              NO INCLUYE ni alojamientos ni traslados. </p>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-12 text-center">
+          {% if user.is_autheticated %}
+          <a class="button mb-2" href="#">Inscribirme</a>
+          {% else %} 
+          <a class="button mr-3 mb-2" href="#">Crearme una cuenta</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================ Join section End =================-->
+
+  <!--================ Carrousel section Start =================-->
+  <section class="section-margin">
+    <div class="container">
+      <div class="section-intro text-center pb-98px">
+        <p class="section-intro__title">Asi fue creciendo esta historia</p>
+        <h2 class="primary-text">Los traspasos de bandera</h2>
+        <img src="{% static 'img/home/section-style.png' %}" alt="">
+      </div>
+
+      <div class="owl-theme owl-carousel blogCarousel pb-xl-1">
+        <div class="card-blog">
+          <img class="card-img" src="{% static 'img/carrousel/201806_ParanaETI_bandera.jpg' %}" alt="201806_ParanaETI_bandera">
+          <!-- style="max-width: 100%; height: max-content;"> -->
+          <div class="blog-body">
+            <a href="#">
+              <h3>ParanaETI, del litoral hacia la patagonia</h3>
+            </a>
+            <ul class="blog-info">
+              <li><a href="#"><i class="ti-comments-smiley"></i> Mayo, 2018</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-blog">
+          <img class="card-img" src="{% static 'img/carrousel/201811_LasGrutas_bandera.jpg' %}" alt="">
+          <div class="blog-body">
+            <a href="#">
+              <h3>Las Grutas, del atlantico al pacifico</h3>
+            </a>
+            <ul class="blog-info">
+              <li><a href="#"><i class="ti-comments-smiley"></i> Noviembre, 2018</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-blog">
+          <img class="card-img" src="{% static 'img/carrousel/201903_ChileETI_bandera.jpg' %}" alt="">
+          <div class="blog-body">
+            <a href="#">
+              <h3>ChilETI, vuelta a la capital nacional del fernet</h3>
+            </a>
+            <ul class="blog-info">
+              <li><a href="#"><i class="ti-comments-smiley"></i> Marzo, 2019</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-blog">
+          <img class="card-img" src="{% static 'img/carrousel/201907_belleville_bandera.jpg' %}" alt="">
+          <div class="blog-body">
+            <a href="#">
+              <h3>BellVillETI, derechito para el corazon de la patagonia</h3>
+            </a>
+            <ul class="blog-info">
+              <li><a href="#"><i class="ti-comments-smiley"></i> Julio, 2019</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card-blog">
+          <img class="card-img" src="{% static 'img/carrousel/201911_LaComarca_bandera.jpg' %}" alt="">
+          <div class="blog-body">
+            <a href="#">
+              <h3>La Adela - Rio Colorado, a tomarse   un tiempo y descansar</h3>
+            </a>
+            <ul class="blog-info">
+              <li><a href="#"><i class="ti-comments-smiley"></i> Diciembre, 2019</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================ Carrousel section End =================-->
+
+  <!-- login -->
+  {% if not user.is_authenticated %}
+  <div id="login" class="container-fluid bg-light p-0 fill">
+    <div class="container row d-flex align-content-center align-items-center fill">
+      <div class="col-sm-6 p-2 my-3"><img class="rounded float-right" src="{% static 'img/h/eti_logo.png'%}" width="50%" alt=""></div>
+      <div class="col-sm-5 p-2 my-3">
+        <h2 class="text-dark">Identificate</h2>
+        <form method="post" novalidate>
+          {% load crispy_forms_tags %}
+          {% csrf_token %}
+          {{ form|crispy }}
+          <a href="{% url 'register' %}"><button type="button" class="btn btn-light p-2">Registrarse</button></a>
+          <button type="submit" class="btn btn-success">Ingresar</button>
+        </form>
+        <a href="{% url 'password_reset' %}"><button type="button" class="btn btn-light p-2">¿Has olvidado tu contraseña?</button></a>
+      </div>
     </div>
   </div>
+  {% endif %}
 
-</div>
-<div id="history" class="container-fluid">
-  {% include 'history.html' %}
-</div>
-<div id="protocolo" class="d-flex align-items-center justify-content-center bg-light">
-  {% include 'protocol.html' %}
-</div>
-<!-- login -->
-{% if not user.is_authenticated %}
-<div id="login" class="container-fluid bg-light p-0 fill">
-  <div class="container row d-flex align-content-center align-items-center fill">
-    <div class="col-sm-6 p-2 my-3"><img class="rounded float-right" src="{% static 'img/h/eti_logo.png'%}" width="50%" alt=""></div>
-    <div class="col-sm-5 p-2 my-3">
-      <h2 class="text-dark">Identificate</h2>
-      <form method="post" novalidate>
-        {% load crispy_forms_tags %}
-        {% csrf_token %}
-        {{ form|crispy }}
-        <a href="{% url 'register' %}"><button type="button" class="btn btn-light p-2">Registrarse</button></a>
-        <button type="submit" class="btn btn-success">Ingresar</button>
-      </form>
-      <a href="{% url 'password_reset' %}"><button type="button" class="btn btn-light p-2">¿Has olvidado tu contraseña?</button></a>
-    </div>
-  </div>
-</div>
-{% endif %}
-<!-- footer -->
-<div class="row justify-content-center bg-dark text-white m-0">
-  <div class="col mt-2 align-content-center">
-    <h4 class="col-10 m-2 p-2 text-center">Encuentro Tanguero Del Interior</h4>
-    <p class="col-10 m-2 p-2 text-center">Encuentro autogestivo de tango, donde todxs participamos para generar un pista de baile desde el respeto y la diversidad</p>
-  </div>
-  <div class="col mt-2">
-    <h4 class="m-2 p-2 text-center">Redes</h4>
-    <a class="m-2 rounded text-center" href="https://www.facebook.com/groups/305562943758/"><img class="rounded mx-auto d-block" src="{% static 'img/h/fb_logo.png' %}" alt="facebook" width="40" href="#" align="middle"></a>
-  </div>
-  <div class="col mt-2">
-    <h4 class="m-2 p-2 text-center">Diseño y Programacións</h4>
-  </div>
-</div>
+
 {% endblock %}
