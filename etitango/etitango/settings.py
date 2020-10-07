@@ -138,7 +138,7 @@ GOOOGLE_RECAPTCHA_SECRET_KEY = config('GOOOGLE_RECAPTCHA_SECRET_KEY')
 GOOOGLE_RECAPTCHA_PUBLIC_KEY = config('GOOOGLE_RECAPTCHA_PUBLIC_KEY')
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),] # use only for dev
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),] # use only for dev
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static') # use only in production
 
 MEDIA_URL = '/media/'
