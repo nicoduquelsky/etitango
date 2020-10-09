@@ -71,3 +71,5 @@ class EtiModelChoiceField(forms.ModelChoiceField):
             return obj.eti_name
         else:
             return False
+
+            

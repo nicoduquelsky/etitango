@@ -13,7 +13,7 @@ from .models import Event, Inscription
 # CLASSES
 
 # EVENT
-class create_event_page(PanelContextMixin, PermissionContextMixin, FormView):
+class CreateEventView(PanelContextMixin, PermissionContextMixin, FormView):
     # Only Boss Users can access.
     permission_required = ('events.add_event',)
     model = Event
@@ -29,9 +29,10 @@ class create_event_page(PanelContextMixin, PermissionContextMixin, FormView):
         form.instance.staff = self.request.user
         # If User got a event linked, it only will update it.
         form.save()
-        return super(create_event_page, self).form_valid(form)
+        return super().form_valid(form)
 
-class edit_event_page(PanelContextMixin, PermissionContextMixin, FormView):
+
+class EditEventView(PanelContextMixin, PermissionContextMixin, FormView):
     # Only Boss Users can access.
     permission_required = ('events.change_event',)
     model = Event
@@ -41,11 +42,13 @@ class edit_event_page(PanelContextMixin, PermissionContextMixin, FormView):
 
     # Template avoid the form if User dont get a event linked
     def form_valid(self, form):
-        form.instance.staff_id = Event.objects.get(staff_id=self.request.user).staff_id
+        form.instance.staff_id = Event.objects.get(
+            staff_id=self.request.user).staff_id
         form.save()
-        return super(edit_event_page, self).form_valid(form)
+        return super().form_valid(form)
 
-class active_event_page(PanelContextMixin, PermissionContextMixin, FormView):
+
+class ActiveEventView(PanelContextMixin, PermissionContextMixin, FormView):
     # Only Boss Users can access.
     permission_required = ('events.change_event',)
     model = Event
@@ -54,30 +57,35 @@ class active_event_page(PanelContextMixin, PermissionContextMixin, FormView):
     success_url = reverse_lazy('active_event_done')
 
     def post(self, request, *args, **kwargs):
-        #TODO: Validate form
+        # TODO: Validate form
         form = EventActiveForm(request.POST)
         form.instance = Event.objects.get(staff_id=self.request.user)
         form.save()
-        return super(active_event_page, self).form_valid(form)
+        return super().form_valid(form)
 
-class done_active_event_page(PanelContextMixin, PermissionContextMixin, TemplateView):
+
+class ActiveEventDoneView(PanelContextMixin, PermissionContextMixin, TemplateView):
     # Only Boss Users can access.
     permission_required = ('events.change_event',)
     template_name = 'event_active_done.html'
     title = ('Activation done')
 
-class done_event_page(PanelContextMixin, PermissionContextMixin, TemplateView):
+
+class EventDoneView(PanelContextMixin, PermissionContextMixin, TemplateView):
     # Only Boss Users can access.
     permission_required = ('events.change_event',)
     template_name = 'event_done.html'
     title = ('Inscription done')
 
-class view_event_page(PanelContextMixin, TemplateView):
+
+class EventView(PanelContextMixin, TemplateView):
     model = Event
     template_name = 'event_view.html'
 
-## INSCRIPTION
-class new_inscription_page(PanelContextMixin, FormView):
+# INSCRIPTION
+
+
+class InscriptionView(PanelContextMixin, FormView):
     model = Inscription
     form_class = InscriptionForm
     template_name = 'new_inscription.html'
@@ -86,11 +94,13 @@ class new_inscription_page(PanelContextMixin, FormView):
     def form_valid(self, form):
         # Need to be only one inscription per Event
         form.instance.inscription_date = date.today()
-        form.instance.eti = Event.objects.get(active=True) # only one eti must be active
+        form.instance.eti = Event.objects.get(
+            active=True)  # only one eti must be active
         form.instance.email_id = self.request.user.id
         form.save()
-        return super(new_inscription_page, self).form_valid(form)
+        return super().form_valid(form)
 
-class inscription_done_page(PanelContextMixin, TemplateView):
+
+class InscriptionDoneView(PanelContextMixin, TemplateView):
     template_name = 'inscription_done.html'
     title = ('Inscription done')

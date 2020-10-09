@@ -4,8 +4,8 @@
 pip install -r /var/www/html/etitango/requirements.txt
 
 # Collect static files
-echo "===============Collect static files==============="
-python3 /var/www/html/etitango/manage.py collectstatic --noinput
+# echo "===============Collect static files==============="
+# python3 /var/www/html/etitango/manage.py collectstatic --noinput
 
 # Apply database migrations
 echo "===============Apply database migrations==============="

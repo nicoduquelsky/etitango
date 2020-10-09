@@ -7,13 +7,28 @@
     <div class="col-sm-6 p-2 my-3">
       <img id="home-img-1" class="rounded mx-auto d-block" align="middle" src="{% static 'img/h/eti_logo.png' %}" width="35%">
       <h1 class="pt-3 text-center">Formulario para registrarse</h1>
+       {% if messages %}
+        <div class="row col-lg-12 d-flex justify-content-center align-items-center p-2 m-2">
+          {% for message in messages %}
+          <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+           <strong>{{ message }}</strong>
+            </div>
+           {% endfor %}
+        </div>
+      {% endif %}
       <form method="post" id="register-form" data-provinces-url="{% url 'ajax_load_provinces' %}" data-cities-url="{% url 'ajax_load_cities' %}" novalidate>
         {% load crispy_forms_tags %}
         {% csrf_token %}
-        {{ form|crispy }}
-        {{ porm|crispy }}
-        <a href="/#login"><button type="button" class="btn btn-light p-2">Regresar</button></a>
-        <button type="submit" class="btn btn-success" name="register">Registrarse</button>
+        {{ user_form|crispy }}
+        {{ profile_form|crispy }}
+        <div class="row justify-content-center align-items-center">
+          <script src='https://www.google.com/recaptcha/api.js'></script>
+          <div class="col-md-6 d-flex justify-content-center">
+            <div class="g-recaptcha" data-sitekey="{{ public_key }}"></div>
+          </div>
+          <a href="{% url 'home' %}"><button type="button" class="btn btn-secondary p-2 m-1">Regresar</button></a>
+          <button type="submit" class="btn btn-success p-2 m-1">Registrarse</button>
+        </div>
       </form>
     </div>
     <script>
@@ -30,9 +45,7 @@
           }
         });
       });
-    </script>
-
-    <script>
+      
       $("#id_province").change(function() {
         var url = $("#register-form").attr("data-cities-url");
         var provinceId = $(this).val();
