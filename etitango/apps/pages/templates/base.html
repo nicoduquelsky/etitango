@@ -38,15 +38,15 @@
             <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav justify-content-end">
                 <li class="nav-item active"><a class="nav-link" href="{% url 'home' %}">ETI</a></li> 
-                <li class="nav-item"><a class="nav-link" href="#">Historia del ETI</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Comisiones ETIanas</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'history' %}">Historia del ETI</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'in_progress' %}">Comisiones ETIanas</a></li>
                 <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                     aria-expanded="false">Comision de Genero</a>
                 <ul class="dropdown-menu">
-                    <li class="nav-item"><a class="nav-link" href="#">Sobre Nosotrxs</a>                  
-                    <li class="nav-item"><a class="nav-link" href="#">Protocolo de Genero</a>                  
-                    <li class="nav-item"><a class="nav-link" href="#">Contactanos</a>                  
+                    <li class="nav-item"><a class="nav-link" href="{% url '404' %}">Sobre Nosotrxs</a>                  
+                    <li class="nav-item"><a class="nav-link" href="{% url '404' %}">Protocolo de Genero</a>                  
+                    <li class="nav-item"><a class="nav-link" href="{% url '404' %}">Contactanos</a>                  
                 </ul>
                 </li>
             </ul>

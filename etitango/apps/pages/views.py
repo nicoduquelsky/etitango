@@ -11,10 +11,16 @@ class HomeView(EventContextMixin, LoginView):
     template_name = 'home.html'
 
 class HistoryView(EventContextMixin, LoginView):
-    template_name =  "history.html"
+    template_name = 'history.html'
 
 class ProtocolView(EventContextMixin, LoginView):
-    template_name = "protocol.html"
+    template_name = 'protocol.html'
 
 class ManifestView(EventContextMixin, LoginView):
-    template_name = "manifiest.html"
+    template_name = 'manifiest.html'
+
+class ErrorView(EventContextMixin, LoginView):
+    template_name = '404.html'
+
+class InProgressView(EventContextMixin, LoginView):
+    template_name = 'in_progress.html'

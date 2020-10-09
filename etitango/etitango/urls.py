@@ -29,12 +29,14 @@ urlpatterns = [
     path('ajax/load-cities/', countries.load_cities,
          name='ajax_load_cities'),
 
-    # PATHS
+    ## PATHS
     path('', pages.HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('history/', pages.HistoryView.as_view(), name='history'),
     path('manifest/', pages.ManifestView.as_view(), name='manifest'),
     path('protocol/', pages.ProtocolView.as_view(), name='protocol'),
+    path('404/', pages.ErrorView.as_view(), name='404'),
+    path('in_progress/', pages.InProgressView.as_view(), name='in_progress'),
 
     ## PROFILES
     url('^', include('django.contrib.auth.urls')),
