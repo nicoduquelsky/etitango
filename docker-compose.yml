@@ -45,7 +45,7 @@ services:
       - static_data:/vol/web/static
       - media_data:/vol/web/media
     ports:
-      - "80:80"
+      - "3333:80"
     links:
       - etitango:etitango
     networks:
