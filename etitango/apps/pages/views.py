@@ -8,19 +8,35 @@ from utils.defs import EventContextMixin
 
 # Home.
 class HomeView(EventContextMixin, LoginView):
-    template_name = 'home.html'
-
-class HistoryView(EventContextMixin, LoginView):
-    template_name = 'history.html'
-
-class ProtocolView(EventContextMixin, LoginView):
-    template_name = 'protocol.html'
-
-class ManifestView(EventContextMixin, LoginView):
-    template_name = 'manifiest.html'
+    template_name = '01_ETI_home.html'
 
 class ErrorView(EventContextMixin, LoginView):
-    template_name = '404.html'
+    template_name = '02_ETI_404.html'
 
 class InProgressView(EventContextMixin, LoginView):
-    template_name = 'in_progress.html'
+    template_name = '03_ETI_in_progress.html'
+
+class AssemblyWaitView(EventContextMixin, LoginView):
+    template_name = '04_ETI_assembly_wait.html'
+
+class HistoryView(EventContextMixin, LoginView):
+    template_name = '05_ETI_history.html'
+
+class ComiteesView(EventContextMixin, LoginView):
+    template_name = '06_ETI_comitees.html'
+
+class GenderComiteeView(EventContextMixin, LoginView):
+    template_name = '07_ETI_gender_comitee.html'
+
+class GenderProtocolView(EventContextMixin, LoginView):
+    template_name = '08_ETI_gender_protocol.html'
+
+class GenderComiteeContactView(EventContextMixin, LoginView):
+    template_name = '09_ETI_gender_comitee_contactus.html'
+
+class LogInMailView(EventContextMixin, LoginView):
+    template_name = '10_ETI_login_mail.html'
+
+class LogInPasswordView(EventContextMixin, LoginView):
+    template_name = '11_ETI_login_password.html'
+
