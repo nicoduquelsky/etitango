@@ -1,42 +1,65 @@
 version: '3'
 services:
- db:
-  build:
-    context: .
-    dockerfile: ./mysql/Dockerfile
-  restart: always
-  command: mysqld --default-authentication-plugin=mysql_native_password
-  volumes:
-  - ./mysql/mysql.cnf:/etc/mysql/conf.d/custom.cnf
-  environment:
-   MYSQL_DATABASE: 'db_etitango'
-   MYSQL_USER: 'etitango'
-   MYSQL_PASSWORD: 'etitango'
-   MYSQL_ROOT_PASSWORD: 'pgpadmin'
-  ports:
-   - 3306:3306
-  expose:
-   - 3306
+  db:
+    build:
+      context: .
+      dockerfile: ./mysql/Dockerfile
+    restart: always
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/custom.cnf
+    env_file:
+      - ./.env.prod  
+    ports:
+      - 3306:3306
+    networks:
+      - network_db
+    expose:
+      - 3306
 
- etitango:
-   build: .
-   restart: always
-   ports:
-    - 8000:8000
-   expose:
-     - 8000
-   links:
-     - db:db
-   env_file: etitango/etitango/.env
-   environment:
-     DEBUG: "true" # Must change for ops
-   depends_on:
-    - db
-   command: sh -c "/wait && /docker-entrypoint.sh"
-   environment:
-     - WAIT_HOSTS=db:3306
-     - WAIT_HOSTS_TIMEOUT=5
-     - WAIT_SLEEP_INTERVAL=15
-     - WAIT_HOST_CONNECT_TIMEOUT=5
-   volumes: # only for dev
-     - ./etitango:/var/www/html/etitango
+  etitango:
+    build: .
+    restart: always
+    # ports:
+      # - 8000:8000
+    expose:
+      - 8000
+    networks:
+      - network_proxy
+      - network_db
+    links:
+      - db:db
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+    command: sh -c "scripts/wait && scripts/docker-entrypoint.sh"
+    volumes:
+      - static_data:/vol/web/static
+      - media_data:/vol/web/media
+
+  proxy:
+    build:
+      context: ./proxy
+    volumes:
+      - static_data:/vol/web/static
+      - media_data:/vol/web/media
+    ports:
+      - "80:80"
+    links:
+      - etitango:etitango
+    networks:
+      - network_proxy
+    depends_on:
+      - etitango
+  
+volumes:
+  static_data:
+  media_data:
+  mysql_data:
+
+networks:
+  network_proxy:
+    driver: bridge
+  network_db:
+    driver: bridge

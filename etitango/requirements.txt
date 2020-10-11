@@ -1,9 +1,0 @@
-Django==3.0.8
-django-crispy-forms
-django-mysql
-mysqlclient
-python-decouple
-psycopg2-binary
-Requests
-Pillow
-six

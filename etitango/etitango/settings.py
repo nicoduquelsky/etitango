@@ -11,23 +11,24 @@
 `"""
 
 import os
-from decouple import config, Csv
+# from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'not_today')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = bool(os.environ.get('DEBUG', False))
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
-
+ALLOWED_HOSTS = []
+ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+if ALLOWED_HOSTS_ENV:
+    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
 # Application definition
 
@@ -88,9 +89,9 @@ WSGI_APPLICATION = 'etitango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_etitango',
-        'USER': 'etitango',
-        'PASSWORD': 'etitango',
+        'NAME': os.environ.get('MYSQL_DATABASE'),
+        'USER': os.environ.get('MYSQL_USER'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
         'HOST': 'db',   # refer to alias at docker
         'PORT': '3306', # don't change it!
         # 'OPTIONS': {
@@ -134,21 +135,20 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'profiles.User'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-GOOOGLE_RECAPTCHA_SECRET_KEY = config('GOOOGLE_RECAPTCHA_SECRET_KEY')
-GOOOGLE_RECAPTCHA_PUBLIC_KEY = config('GOOOGLE_RECAPTCHA_PUBLIC_KEY')
+GOOOGLE_RECAPTCHA_SECRET_KEY = os.environ.get('GOOOGLE_RECAPTCHA_SECRET_KEY')
+GOOOGLE_RECAPTCHA_PUBLIC_KEY = os.environ.get('GOOOGLE_RECAPTCHA_PUBLIC_KEY')
 
-STATIC_URL = '/static/'
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),] # use only for dev
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static') # use only in production
+STATIC_URL = "/static/"
+STATIC_ROOT = "/vol/web/static/"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = "/vol/web/media/"
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = config('EMAIL_PORT', cast=int)
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
-EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+EMAIL_USE_TLS = bool(os.environ.get('EMAIL_USE_TLS', True))
+EMAIL_USE_SSL = bool(os.environ.get('EMAIL_USE_SSL', False))

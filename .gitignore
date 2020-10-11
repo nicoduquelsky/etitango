@@ -1,9 +1,8 @@
 # Django
 **/migrations
 **__pycache__**
-
-media/
+*.env*
 *.pyc
-
 env/
-*.env
+media/
+.directory
