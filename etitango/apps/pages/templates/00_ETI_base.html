@@ -49,9 +49,7 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'gender_comitee_contactus' %}">Contactanos</a>                  
                 </ul>
                 </li>
-            </ul>
             {% if user.is_autheticated %} 
-                <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ user.username }}
@@ -62,12 +60,12 @@
                     <a class="dropdown-item" href="{% url 'logout' %}">Cerrar Sesion</a>
                     </div>
                 </li>
-                </ul>
             {% else %}
                 <form class="form-inline my-2 my-lg-0">
                 <a href="{% url 'login_mail' %}" class="btn btn-primary btn-sm">ingresar / crear usuario</a>
                 </form>
             {% endif %}
+            </ul>
             </div> 
         </div>
         </nav>
@@ -92,7 +90,7 @@
             </p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="col-lg-2 col-md-6 col-sm-6">
             <div class="single-footer-widget">
             <h6>Links ETIanos</h6>
             <div class="row">

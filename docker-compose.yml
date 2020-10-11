@@ -1,6 +1,6 @@
 version: '3'
 services:
- db:
+ db-dev:
   build:
     context: .
     dockerfile: ./mysql/Dockerfile
@@ -18,7 +18,7 @@ services:
   expose:
    - 3306
 
- etitango:
+ etitango-dev:
    build: .
    restart: always
    ports:
@@ -26,12 +26,12 @@ services:
    expose:
      - 8000
    links:
-     - db:db
+     - db-dev:db
    env_file: etitango/etitango/.env
    environment:
      DEBUG: "true" # Must change for ops
    depends_on:
-    - db
+    - db-dev
    command: sh -c "/wait && /docker-entrypoint.sh"
    environment:
      - WAIT_HOSTS=db:3306
