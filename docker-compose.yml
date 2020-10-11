@@ -1,6 +1,6 @@
 version: '3'
 services:
-  db:
+  db-prod:
     build:
       context: .
       dockerfile: ./mysql/Dockerfile
@@ -17,7 +17,7 @@ services:
     expose:
       - 3306
 
-  etitango:
+  app-prod:
     build: .
     restart: always
     # ports:
@@ -28,17 +28,17 @@ services:
       - network_proxy
       - network_db
     links:
-      - db:db
+      - db-prod:db
     env_file:
       - ./.env.prod
     depends_on:
-      - db
-    command: sh -c "scripts/wait && scripts/docker-entrypoint.sh"
+      - db-prod
+    command: sh -c "./scripts/wait && ./scripts/docker-entrypoint.sh"
     volumes:
       - static_data:/vol/web/static
       - media_data:/vol/web/media
 
-  proxy:
+  proxy-prod:
     build:
       context: ./proxy
     volumes:
@@ -47,11 +47,11 @@ services:
     ports:
       - "3333:80"
     links:
-      - etitango:etitango
+      - app-prod:etitango
     networks:
       - network_proxy
     depends_on:
-      - etitango
+      - app-prod
   
 volumes:
   static_data:
