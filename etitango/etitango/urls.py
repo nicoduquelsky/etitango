@@ -29,18 +29,28 @@ urlpatterns = [
     path('ajax/load-cities/', countries.load_cities,
          name='ajax_load_cities'),
 
-    # PATHS
+    ## PATHS
     path('', pages.HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
+    path('error/', pages.ErrorView.as_view(), name='404'),
+    path('in_progress/', pages.InProgressView.as_view(), name='in_progress'),
+    path('assembly_wait/', pages.AssemblyWaitView.as_view(), name='assembly_wait'),
     path('history/', pages.HistoryView.as_view(), name='history'),
-    path('manifest/', pages.ManifestView.as_view(), name='manifest'),
-    path('protocol/', pages.ProtocolView.as_view(), name='protocol'),
+    #path('comitees/', pages.ComiteesView.as_view(), name='comitees'),
+    path('comitees/', pages.AssemblyWaitView.as_view(), name='comitees'),
+    path('gender_comitee/', pages.GenderComiteeView.as_view(), name='gender_comitee'),
+    path('gender_protocol/', pages.GenderProtocolView.as_view(), name='gender_protocol'),
+    path('gender_comitee_contactus/', pages.GenderComiteeContactView.as_view(), name='gender_comitee_contactus'),
+    path('login_mail/', pages.LogInMailView.as_view(), name='login_mail'),
+    #path('login_password/', pages.LogInPasswordView.as_view(), name='login_password'),
+    path('login_password/', pages.AssemblyWaitView.as_view(), name='login_password'),
 
     ## PROFILES
     url('^', include('django.contrib.auth.urls')),
-    path('register/done/', profiles.RegisterDoneView.as_view(), name='register_done'),
-    path('register/', profiles.register_page, name='register'),
-    
+    #path('register/done/', profiles.RegisterDoneView.as_view(), name='register_done'),
+    path('register/done/', pages.AssemblyWaitView.as_view(), name='register_done'),
+    #path('register/', profiles.register_page, name='register'),
+    path('register/', pages.AssemblyWaitView.as_view(), name='register'),
     path('accounts/', include('apps.profiles.urls')),
 
     ## EVENTS
