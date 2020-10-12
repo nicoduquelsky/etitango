@@ -42,12 +42,12 @@ services:
       context: ./proxy
     restart: unless-stopped
     volumes:
-      - app_data:/vol/web
       - ./proxy/conf.d/:/etc/nginx/conf.d
+      - app_data:/var/www/html
       - certbot_etc:/etc/letsencrypt
-      - cerbot_var:/var/lib/letsencrypt
+      - certbot_var:/var/lib/letsencrypt
     ports:
-      - "1337:80"
+      - "80:80"
     links:
       - app_prod:app_prod
     networks:
@@ -59,18 +59,18 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - app_data:/vol/web
+      - app_data:/var/www/html
       - certbot_etc:/etc/letsencrypt
-      - cerbot_var:/var/lib/letsencrypt
+      - certbot_var:/var/lib/letsencrypt
     depends_on:
       - proxy_prod
-    command: certonly --webroot --webroot-path=/vol/web --email schrottgerardo@gmail.com --agree-tos --no-eff-email --staging -d etitango.com.ar  -d www.etitango.com.ar      
+    command: certonly --webroot --webroot-path=/var/www/html --email schrottgerardo@gmail.com --agree-tos --no-eff-email --staging -d etitango.com.ar  -d www.etitango.com.ar      
 
 volumes:
   app_data:
   mysql_data:
   certbot_etc:
-  cerbot_var:
+  certbot_var:
 
 networks:
   network_proxy:
