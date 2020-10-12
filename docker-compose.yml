@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: ./mysql/Dockerfile
-    restart: always
+    restart: unless-stopped
     command: mysqld --default-authentication-plugin=mysql_native_password
     volumes:
       - ./mysql/mysql.cnf:/etc/mysql/conf.d/custom.cnf
@@ -19,7 +19,7 @@ services:
 
   app_prod:
     build: .
-    restart: always
+    restart: unless-stopped
     # ports:
       # - 8000:8000
     expose:
@@ -35,29 +35,42 @@ services:
       - db_prod
     command: sh -c "./scripts/wait && ./scripts/docker-entrypoint.sh"
     volumes:
-      - static_data:/vol/web/static
-      - media_data:/vol/web/media
+      - app_data:/vol/web
 
   proxy_prod:
     build:
       context: ./proxy
+    restart: unless-stopped
     volumes:
-      - static_data:/vol/web/static
-      - media_data:/vol/web/media
+      - app_data:/vol/web
+      - ./proxy/conf.d/:/etc/nginx/conf.d
+      - certbot_etc:/etc/letsencrypt
+      - cerbot_var:/var/lib/letsencrypt
     ports:
-      - "80:80"
-      - "443:443"
+      - "1337:80"
     links:
-      - app_prod:etitango
+      - app_prod:app_prod
     networks:
       - network_proxy
     depends_on:
       - app_prod
-  
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - app_data:/vol/web
+      - certbot_etc:/etc/letsencrypt
+      - cerbot_var:/var/lib/letsencrypt
+    depends_on:
+      - proxy_prod
+    command: certonly --webroot --webroot-path=/vol/web --email schrottgerardo@gmail.com --agree-tos --no-eff-email --staging -d etitango.com.ar  -d www.etitango.com.ar      
+
 volumes:
-  static_data:
-  media_data:
+  app_data:
   mysql_data:
+  certbot_etc:
+  cerbot_var:
 
 networks:
   network_proxy:
