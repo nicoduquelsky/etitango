@@ -48,6 +48,7 @@ services:
       - certbot_var:/var/lib/letsencrypt
     ports:
       - "80:80"
+      - "443:443"
     links:
       - app_prod:app_prod
     networks:
@@ -62,15 +63,22 @@ services:
       - app_data:/var/www/html
       - certbot_etc:/etc/letsencrypt
       - certbot_var:/var/lib/letsencrypt
+      - dhparam:/etc/ssl/certs
     depends_on:
       - proxy_prod
-    command: certonly --webroot --webroot-path=/var/www/html --email schrottgerardo@gmail.com --agree-tos --no-eff-email --staging -d etitango.com.ar  -d www.etitango.com.ar      
+    command: certonly --webroot --webroot-path=/var/www/html --email schrottgerardo@gmail.com --agree-tos --no-eff-email --force-renewal -d etitango.com.ar  -d www.etitango.com.ar      
 
 volumes:
   app_data:
   mysql_data:
   certbot_etc:
   certbot_var:
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./dhparam/
+      o: bind
 
 networks:
   network_proxy:
