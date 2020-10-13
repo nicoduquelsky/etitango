@@ -46,8 +46,9 @@ services:
       - app_data:/var/www/html
       - certbot_etc:/etc/letsencrypt
       - certbot_var:/var/lib/letsencrypt
+      - dhparam:/etc/ssl/certs
     ports:
-      - "80:80"
+      - "1337:80"
       - "443:443"
     links:
       - app_prod:app_prod
@@ -66,7 +67,7 @@ services:
       - dhparam:/etc/ssl/certs
     depends_on:
       - proxy_prod
-    command: certonly --webroot --webroot-path=/var/www/html --email schrottgerardo@gmail.com --agree-tos --no-eff-email --force-renewal -d etitango.com.ar  -d www.etitango.com.ar      
+    command: certonly --webroot --webroot-path=/var/www/html --email schrottgerardo@gmail.com --agree-tos --no-eff-email --force-renewal -d etitango.com.ar  -d www.etitango.com.ar
 
 volumes:
   app_data:
@@ -77,7 +78,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ./dhparam/
+      device: /home/pgpsoft/etitango/proxy/dhparam
       o: bind
 
 networks:
