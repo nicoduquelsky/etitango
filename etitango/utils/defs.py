@@ -15,7 +15,7 @@ from apps.profiles.models import User, Profile
 
 class EventContextMixin(ContextMixin):
     """
-        This Mixin is required for all views whith event information.
+        This Mixin is required for all views with event information.
         PanelContextMixin inherit it, so avoid using it in views which user logged.
 
         Note: Was pulled apart specially for HomeView.
