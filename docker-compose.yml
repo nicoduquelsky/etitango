@@ -48,7 +48,7 @@ services:
       - certbot_var:/var/lib/letsencrypt
       - dhparam:/etc/ssl/certs
     ports:
-      - "1337:80"
+      - "80:80"
       - "443:443"
     links:
       - app_prod:app_prod
