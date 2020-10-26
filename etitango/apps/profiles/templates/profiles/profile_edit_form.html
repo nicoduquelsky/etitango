@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends '00_ETI_base.html' %}
 {% load static %}
 {% block content %}
 <div id="register" class="container-fluid bg-light">
@@ -37,7 +37,7 @@
     </div>
 
     <script>
-      $("#id_country").val({{ country }});
+      $("#id_country").val("{{ country }}");
       $("#id_country").change(function() {
         var url = $("#edit_profile_form").attr("data-provinces-url");
         var countryId = $(this).val();

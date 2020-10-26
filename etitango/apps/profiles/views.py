@@ -167,7 +167,12 @@ class ProfileEditView(PanelContextMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         if 'profile' in context:
             try:
-                country_id = context['profile'].country_id
+                country_id = Country.objects.get(country_id=context['profile'].country_id).id
+                print("******************************************")
+                print(context['profile'].country_id)
+                print(country_id)
+                print("******************************************")
+                #country_id = context['profile'].country_id
                 context['country'] = country_id
             except(ValueError, TypeError):
                 pass
