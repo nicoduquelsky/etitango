@@ -1,42 +1,64 @@
 version: '3'
 services:
- db-dev:
-  build:
-    context: .
-    dockerfile: ./mysql/Dockerfile
-  restart: always
-  command: mysqld --default-authentication-plugin=mysql_native_password
-  volumes:
-  - ./mysql/mysql.cnf:/etc/mysql/conf.d/custom.cnf
-  environment:
-   MYSQL_DATABASE: 'db_etitango'
-   MYSQL_USER: 'etitango'
-   MYSQL_PASSWORD: 'etitango'
-   MYSQL_ROOT_PASSWORD: 'pgpadmin'
-  ports:
-   - 3306:3306
-  expose:
-   - 3306
+  db_dev:
+    build:
+      context: .
+      dockerfile: ./mysql/Dockerfile
+    restart: unless-stopped
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/custom.cnf
+    env_file:
+      - ./.env  
+    ports:
+      - 3306:3306
+    networks:
+      - network_db
+    expose:
+      - 3306
 
- etitango-dev:
-   build: .
-   restart: always
-   ports:
-    - 8000:8000
-   expose:
-     - 8000
-   links:
-     - db-dev:db
-   env_file: etitango/etitango/.env
-   environment:
-     DEBUG: "true" # Must change for ops
-   depends_on:
-    - db-dev
-   command: sh -c "/wait && /docker-entrypoint.sh"
-   environment:
-     - WAIT_HOSTS=db:3306
-     - WAIT_HOSTS_TIMEOUT=5
-     - WAIT_SLEEP_INTERVAL=15
-     - WAIT_HOST_CONNECT_TIMEOUT=5
-   volumes: # only for dev
-     - ./etitango:/var/www/html/etitango
+  app_dev:
+    build: .
+    restart: unless-stopped
+    # ports:
+      # - 8000:8000
+    expose:
+      - 8000
+    networks:
+      - network_proxy
+      - network_db
+    links:
+      - db_dev:db
+    env_file:
+      - ./.env
+    depends_on:
+      - db_dev
+    command: sh -c "./scripts/wait && ./scripts/docker-entrypoint.sh"
+    volumes:
+      - app_data:/vol/web
+
+  proxy_dev:
+    build:
+      context: ./proxy
+    restart: unless-stopped
+    volumes:
+      - ./proxy/conf.d/:/etc/nginx/conf.d
+      - app_data:/var/www/html
+    ports:
+      - "8000:80"
+    links:
+      - app_dev:app_dev
+    networks:
+      - network_proxy
+    depends_on:
+      - app_dev
+
+volumes:
+  app_data:
+  mysql_data:
+
+networks:
+  network_proxy:
+    driver: bridge
+  network_db:
+    driver: bridge
