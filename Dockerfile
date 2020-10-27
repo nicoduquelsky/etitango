@@ -12,10 +12,8 @@ RUN pip install -r /requirements.txt
 # RUN apk del .tmp
 
 # Copy the app)
-RUN bash -c 'mkdir -p {/etitango,/vol/web/media,/vol/web/static}'
-COPY ./etitango /etitango
-WORKDIR /etitango
-COPY ./scripts/docker-entrypoint.sh scripts/docker-entrypoint.sh
+RUN bash -c 'mkdir -p {/etitango,/scripts,/vol/web/media,/vol/web/static}'
+COPY ./scripts/docker-entrypoint.sh /scripts/docker-entrypoint.sh
 
 # Add docker-compose-wait tool -------------------
 # REPLACE ME after config ddbb
@@ -24,6 +22,7 @@ ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERS
 
 RUN chmod +x scripts/*
 
+WORKDIR /etitango
 RUN adduser --disabled-password --gecos '' etitango
 RUN bash -c 'chown -R etitango:etitango {/vol,/etitango}'
 RUN chmod -R 755 /vol/web
