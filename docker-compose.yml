@@ -45,7 +45,7 @@ services:
       - ./proxy/conf.d/:/etc/nginx/conf.d
       - app_data:/var/www/html
     ports:
-      - "1337:80"
+      - "8000:80"
     links:
       - app_dev:app_dev
     networks:
