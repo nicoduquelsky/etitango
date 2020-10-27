@@ -20,10 +20,10 @@ services:
   app_dev:
     build: .
     restart: unless-stopped
-    # ports:
-      # - 8000:8000
-    expose:
-      - 8000
+    ports:
+      - 80:8000
+    # expose:
+      # - 8000
     networks:
       - network_proxy
       - network_db
@@ -45,7 +45,7 @@ services:
       - ./proxy/conf.d/:/etc/nginx/conf.d
       - app_data:/var/www/html
     ports:
-      - "8000:80"
+      - "1337:80"
     links:
       - app_dev:app_dev
     networks:
