@@ -165,17 +165,6 @@ class ProfileEditView(PanelContextMixin, UpdateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        if 'profile' in context:
-            try:
-                country_id = Country.objects.get(country_id=context['profile'].country_id).id
-                print("******************************************")
-                print(context['profile'].country_id)
-                print(country_id)
-                print("******************************************")
-                #country_id = context['profile'].country_id
-                context['country'] = country_id
-            except(ValueError, TypeError):
-                pass
         context["public_key"] = settings.GOOOGLE_RECAPTCHA_PUBLIC_KEY
         return context
     

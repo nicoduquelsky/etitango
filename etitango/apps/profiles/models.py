@@ -78,7 +78,7 @@ class Profile(models.Model):
     dni_number          = models.CharField(max_length=11, unique=True, verbose_name="Numero de Documento") #  UNIQUE !! PASSSAPORT need CharField;
     birth_date          = models.DateField(blank=True, verbose_name="Fecha de Nacimiento", default="1900-1-1")   # Date, not DateTime.
     gender              = models.CharField(max_length=1, choices=choices.GENDER_CHOICES, verbose_name="Género")
-    country             = models.ForeignKey(Country, on_delete=models.SET_NULL, to_field='id', null=True, blank=True, verbose_name="País")
+    country             = models.ForeignKey(Country, on_delete=models.SET_NULL, to_field='country_id', null=True, blank=True, verbose_name="País")
     province            = models.ForeignKey(Province, on_delete=models.SET_NULL, to_field='id', null=True, blank=True, verbose_name="Provincia")
     city                = models.ForeignKey(City, on_delete=models.SET_NULL, to_field='id', null=True, blank=True, verbose_name="ciudad")
     avatar              = models.ImageField(upload_to=avatar_folder, blank=True, default="profiles/avatar.jpg", verbose_name="Foto de Perfil")
