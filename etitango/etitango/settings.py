@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # # OWN
+    # OWN
     'apps.events',
     'apps.pages',
     'apps.countries',

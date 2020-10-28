@@ -11,11 +11,7 @@
                 {% load crispy_forms_tags %}
                 {% csrf_token %}
                 {{ form | crispy}}
-                <a href="{% url 'login_password' %}">
-                    <button type="button" class="btn btn-light p-2">
-                        Continuar
-                    </button>
-                </a>
+                <input type="submit" class="btn btn-light p-2" value="Continuar">
             </form>
             <a href="{% url 'register' %}">
                 <button type="button" class="btn btn-light p-2">

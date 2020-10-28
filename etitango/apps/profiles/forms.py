@@ -8,6 +8,9 @@ from django.utils.translation import gettext as _
 # APPS
 from apps.countries.models import Province, Country, City
 
+#CRISPY FORMS
+from crispy_forms.helper import FormHelper
+
 # UTILS
 from utils import choices
 from utils.defs import PanelContextMixin, PermissionContextMixin
@@ -88,7 +91,7 @@ class UserForm(ModelForm):
 
 class ProfileForm(ModelForm):
     country = choices.CountryModelChoiceField(
-        queryset=choices.Country.objects.all(), required=True, label="País")
+        queryset=choices.Country.objects.all(), required=True, label="País", to_field_name="country_id")
     province = choices.ProvinceModelChoiceField(
         queryset=Province.objects.all(), required=False, label="Provincia")
     city = choices.CityModelChoiceField(
@@ -116,8 +119,9 @@ class ProfileForm(ModelForm):
                 try:
                     province_id = Province.objects.get(
                         id=int(self.data.get('province')))
-                    self.fields['city'].queryset = City.objects.filter(
-                        province_id=province_id).order_by('city_name')
+                    if province_id:
+                        self.fields['city'].queryset = City.objects.filter(
+                            province_id=province_id).order_by('city_name')
                 except (ValueError, TypeError):
                     pass
 
