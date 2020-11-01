@@ -1,0 +1,12 @@
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=etitango
+Group=etitango
+WorkingDirectory=/etitango
+ExecStart=gunicorn --access-logfile - --workers 3 --bind unix:/etitango/etitango.sock etitango.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
