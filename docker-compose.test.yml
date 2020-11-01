@@ -1,6 +1,6 @@
 version: '3'
 services:
-  db_dev:
+  db_test:
     build:
       context: .
       dockerfile: ./mysql/Dockerfile
@@ -17,11 +17,11 @@ services:
     expose:
       - 3306
 
-  app_dev:
+  app_test:
     build:
       context: .
-      dockerfile: ./django/Dockerfile
-    restart: unless-stopped
+      dockerfile: ./django/Dockerfile.test
+    # restart: unless-stopped
     ports:
       - 80:8000
     # expose:
@@ -30,17 +30,17 @@ services:
       - network_proxy
       - network_db
     links:
-      - db_dev:db
+      - db_test:db
     env_file:
       - ./.env
     depends_on:
-      - db_dev
+      - db_test
     command: sh -c "/scripts/wait && /scripts/docker-entrypoint.sh"
     volumes:
       - ./etitango:/etitango
       - app_data:/vol/web
 
-  proxy_dev:
+  proxy_test:
     build:
       context: ./proxy
     restart: unless-stopped
@@ -50,11 +50,11 @@ services:
     ports:
       - "8000:80"
     links:
-      - app_dev:app
+      - app_test:app
     networks:
       - network_proxy
     depends_on:
-      - app_dev
+      - app_test
 
 volumes:
   app_data:
