@@ -22,6 +22,8 @@ services:
       context: .
       dockerfile: ./django/Dockerfile.prod
     restart: unless-stopped
+    # ports:
+      # - "80:8000"
     expose:
       - 8000
     networks:
@@ -48,6 +50,7 @@ services:
     depends_on:
       - app_prod
     volumes:
+      - app_data:/vol/web
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - certs:/etc/nginx/certs:ro
       - vhostd:/etc/nginx/vhost.d
