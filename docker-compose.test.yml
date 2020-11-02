@@ -9,7 +9,7 @@ services:
     volumes:
       - ./mysql/mysql.cnf:/etc/mysql/conf.d/custom.cnf
     env_file:
-      - ./.env  
+      - ./.env
     ports:
       - 3306:3306
     networks:
@@ -21,11 +21,11 @@ services:
     build:
       context: .
       dockerfile: ./django/Dockerfile.test
-    # restart: unless-stopped
     ports:
       - 80:8000
+    expose:
+      - 80
     networks:
-      - network_proxy
       - network_db
     links:
       - db_test:db
@@ -36,14 +36,10 @@ services:
     command: sh -c "/scripts/wait && /scripts/docker-entrypoint.sh"
     volumes:
       - ./etitango:/etitango
-      - app_data:/vol/web
 
 volumes:
-  app_data:
   mysql_data:
 
 networks:
-  network_proxy:
-    driver: bridge
   network_db:
     driver: bridge

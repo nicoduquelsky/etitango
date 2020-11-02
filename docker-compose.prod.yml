@@ -11,17 +11,19 @@ services:
     env_file:
       - ./.env.prod  
     ports:
-      - 3306:3306
+      - "3306:3306"
     networks:
       - network_db
     expose:
       - 3306
 
   app_prod:
-    build: .
+    build:
+      context: .
+      dockerfile: ./django/Dockerfile.prod
     restart: unless-stopped
-    ports:
-      - 80:8000
+    expose:
+      - 8000
     networks:
       - network_proxy
       - network_db
@@ -31,53 +33,51 @@ services:
       - ./.env.prod
     depends_on:
       - db_prod
-    command: sh -c "./scripts/wait && ./scripts/docker-entrypoint.sh"
+    command: sh -c "/scripts/wait && /scripts/docker-entrypoint.sh"
     volumes:
       - app_data:/vol/web
 
-  proxy_prod:
-    build:
-      context: ./proxy
-    restart: unless-stopped
-    volumes:
-      - ./proxy/conf.d/nginx.prod.conf:/etc/nginx/conf.d/nginx.conf
-      - app_data:/var/www/html
-      - certbot_etc:/etc/letsencrypt
-      - certbot_var:/var/lib/letsencrypt
-      - dhparam:/etc/ssl/certs
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    restart: always
+    networks:
+      - network_proxy
     ports:
       - "80:80"
       - "443:443"
-    links:
-      - app_prod:app
-    networks:
-      - network_proxy
     depends_on:
       - app_prod
-
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
     volumes:
-      - app_data:/var/www/html
-      - certbot_etc:/etc/letsencrypt
-      - certbot_var:/var/lib/letsencrypt
-      - dhparam:/etc/ssl/certs
-    depends_on:
-      - proxy_prod
-    command: certonly --webroot --webroot-path=/var/www/html --email email@example.com --agree-tos --no-eff-email --force-renewal -d etitango.com.ar  -d www.etitango.com.ar
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs:ro
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+  #   labels:
+  #     - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+  # letsencrypt:
+  #   image: jrcs/letsencrypt-nginx-proxy-companion
+  #   restart: always
+  #   networks:
+  #     - network_proxy
+  #   depends_on:
+  #     - nginx-proxy
+  #   env_file:
+  #     - ./.env.prod
+  #   volumes:
+  #     - certs:/etc/nginx/certs:rw
+  #     - vhostd:/etc/nginx/vhost.d
+  #     - html:/usr/share/nginx/html
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+
 
 volumes:
-  app_data:
   mysql_data:
-  certbot_etc:
-  certbot_var:
-  dhparam:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/pgpsoft/etitango/proxy/dhparam
-      o: bind
+  app_data:
+  # Letscrypt configuration
+  certs:
+  html:
+  vhostd:
 
 networks:
   network_proxy:

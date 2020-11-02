@@ -24,8 +24,9 @@ services:
     restart: unless-stopped
     ports:
       - 80:8000
+    expose:
+      - 80
     networks:
-      - network_proxy
       - network_db
     links:
       - db_dev:db
@@ -38,28 +39,10 @@ services:
       - ./etitango:/etitango
       - app_data:/vol/web
 
-  proxy_dev:
-    build:
-      context: ./proxy
-    restart: unless-stopped
-    volumes:
-      - ./proxy/conf.d/nginx.conf:/etc/nginx/conf.d/nginx.conf
-      - app_data:/var/www/html
-    ports:
-      - "8000:80"
-    links:
-      - app_dev:app
-    networks:
-      - network_proxy
-    depends_on:
-      - app_dev
-
 volumes:
   app_data:
   mysql_data:
 
 networks:
-  network_proxy:
-    driver: bridge
   network_db:
     driver: bridge
