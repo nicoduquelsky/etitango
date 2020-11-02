@@ -4,16 +4,14 @@ Repository of etitango site :dancer:
 
 **Guide for Devs**
 
-1. Open a shell.
-2. Go to the repository path
-3. Run docker-compose up using the enviroment file which you want to run:
-  :whale: For develoment: `docker-compose up`
-  :whale: For testing: `docker-compose up -f docker-compose.test.yml`
-  :whale: for production: `docker-compose up -f docker-compose.prod.yml`
+1. Run docker-compose up using the enviroment file which you want to run:
+  - :whale: For develoment: `docker-compose up`
+  - :whale: For testing: `docker-compose up -f docker-compose.test.yml`
+  - :whale: for production: `docker-compose up -f docker-compose.prod.yml`
   * If you need to rebuild the container, use the `--build` flag.
   * Check the manual for more options: `docker-compose up --help`
 
-4. Connect to the site using http://localhost
+2. Connect to the site using http://localhost
 
 ### FAQs
 
@@ -42,8 +40,8 @@ Check this [video](https://www.youtube.com/watch?v=5z2kYFG3OfY&list=PLrb1e2Mp6N_
 Please check this list before commit:
 
 1. You must be working in your branch, but first:
-  :octocat: Merge the develoment branch into your branch, so you can be sure that you are not breaking what.
-  :octocat: Work hard :coffee:
-  :octocat: When you finish, please be sure to pull and merge develoment again into your branch.
-  :octocat: If your branch works well after that, you can merge to the develoment branch.
-  :octocat: Push to github
+  - :octocat: Merge the develoment branch into your branch, so you can be sure that you are not breaking what.
+  - :octocat: Work hard :coffee:
+  - :octocat: When you finish, please be sure to pull and merge develoment again into your branch.
+  - :octocat: If your branch works well after that, you can merge to the develoment branch.
+  - :octocat: Push to github
