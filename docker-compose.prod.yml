@@ -40,7 +40,9 @@ services:
       - app_data:/vol/web
 
   nginx-proxy:
-    image: jwilder/nginx-proxy
+    build:
+      context: ./proxy
+      dockerfile: ./Dockerfile
     restart: always
     networks:
       - network_proxy
@@ -60,7 +62,7 @@ services:
 
   # letsencrypt:
   #   image: jrcs/letsencrypt-nginx-proxy-companion
-  #   restart: always
+  #   # restart: always
   #   networks:
   #     - network_proxy
   #   depends_on:
