@@ -1,7 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.test import SimpleTestCase, TestCase
-from django.utils import timezone
 
 from apps.profiles.forms import UserForm, ProfileForm, RegisterForm
 
@@ -41,15 +40,20 @@ class UserProfileFormTest(TestCase):
 
         self.assertTrue(label_email)
 
-    # def test_proper_profile_form(self):
-    #     self.databases = '__all__'
-    #     profile_form = ProfileForm(data=profile_form_data)
-    #     self.assertTrue(profile_form.is_valid())
+    def test_proper_profile_form(self):
+        profile_form = ProfileForm(data=profile_form_data)
+        self.assertTrue(profile_form.is_valid())
     
-    # def test_actual_date_of_birth(self):
-    #     actual_date = datetime.now()
-    #     profile_form_data['birth_date'] = actual_date
-    #     profile_form = ProfileForm(data=profile_form_data)
+    def test_actual_date_of_birth(self):
+        actual_date = datetime.now()
+        profile_form_data['birth_date'] = actual_date
+        profile_form = ProfileForm(data=profile_form_data)
                 
-    #     self.assertFalse(profile_form.is_valid())
+        self.assertFalse(profile_form.is_valid())
 
+    def test_future_date_of_birth(self):
+        future_date = datetime.now() + timedelta(1)
+        profile_form_data['birth_date'] = future_date
+        profile_form = ProfileForm(data=profile_form_data)
+                
+        self.assertFalse(profile_form.is_valid())

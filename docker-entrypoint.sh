@@ -16,3 +16,4 @@ python3 /var/www/html/etitango/manage.py migrate
 # Start server
 echo "===============Starting server==============="
 python3 /var/www/html/etitango/manage.py runserver 0.0.0.0:8000
+# python3 /var/www/html/etitango/manage.py test apps.profiles.tests.test_forms
