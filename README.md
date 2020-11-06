@@ -36,7 +36,7 @@ Repository of etitango site :dancer:
 
 Check this [video](https://www.youtube.com/watch?v=5z2kYFG3OfY&list=PLrb1e2Mp6N_tXQryuDVzOq4SLQKqVv1uz) to learn more about docker in development environments.
 
-## Ready for commit?
+## Ready to commit?
 Please check this list before commit:
 
 1. You must be working in your branch, but first:
