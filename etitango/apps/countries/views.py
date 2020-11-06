@@ -13,8 +13,7 @@ def load_provinces(request):
 
 
 def load_cities(request):
-    province = request.GET.get('province')
-    province_id = Province.objects.get(id=province)
+    province_id = request.GET.get('province')
     cities = City.objects.filter(
         province_id=province_id).order_by('city_name')
     return render(request, 'hr/cities_dropdown_list_options.html', {'cities': cities})
