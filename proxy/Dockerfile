@@ -1,10 +1,4 @@
-FROM nginx:1.19.0-alpine
+FROM jwilder/nginx-proxy
 
-RUN rm /etc/nginx/conf.d/default.conf
-
-USER root
-
-RUN mkdir -p /var/www/html/{static,media}
-RUN chmod -R 755 /var/www/html
-
-# USER nginx
+COPY vhost.d/default /etc/nginx/vhost.d/default
+COPY custom.conf /etc/nginx/conf.d/custom.conf
