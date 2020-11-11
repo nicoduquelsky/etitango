@@ -50,10 +50,10 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'gender_comitee_contactus' %}">Contactanos</a>                  
                 </ul>
                 </li>
-            {% if user.is_autheticated %} 
+            {% if user.is_authenticated %} 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ user.username }}
+                    {{ user.profile.name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{% url 'profile' %}">Perfil de Usuario</a>
