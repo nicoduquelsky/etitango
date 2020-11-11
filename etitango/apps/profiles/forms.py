@@ -106,25 +106,6 @@ class ProfileForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        if 'country' in self.data:
-            try:
-                country_id = Country.objects.get(
-                    id=int(self.data.get('country'))).country_id
-                self.fields['province'].queryset = Province.objects.filter(
-                    country_id=country_id).order_by('province_name')
-            except (ValueError, TypeError):
-                pass
-
-            if 'province' in self.data:
-                try:
-                    province_id = Province.objects.get(
-                        id=int(self.data.get('province')))
-                    if province_id:
-                        self.fields['city'].queryset = City.objects.filter(
-                            province_id=province_id).order_by('city_name')
-                except (ValueError, TypeError):
-                    pass
-
 
 class PhotoForm(ModelForm):
     avatar = forms.ImageField()
