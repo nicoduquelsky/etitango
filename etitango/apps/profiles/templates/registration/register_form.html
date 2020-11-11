@@ -15,7 +15,7 @@
             </div>
            {% endfor %}
         </div>
-      {% endif %}
+       {% endif %}
       <form method="post" id="register-form" data-provinces-url="{% url 'ajax_load_provinces' %}" data-cities-url="{% url 'ajax_load_cities' %}" novalidate>
         {% load crispy_forms_tags %}
         {% csrf_token %}
@@ -27,39 +27,11 @@
             <div class="g-recaptcha" data-sitekey="{{ public_key }}"></div>
           </div>
           <a href="{% url 'home' %}"><button type="button" class="btn btn-secondary p-2 m-1">Regresar</button></a>
-          <button type="submit" class="btn btn-success p-2 m-1">Registrarse</button>
+          <input type="submit" class="btn btn-success p-2 m-1" value="Registrarse">
         </div>
       </form>
     </div>
-    <script>
-      $("#id_country").change(function() {
-        var url = $("#register-form").attr("data-provinces-url");
-        var countryId = $(this).val();
-        $.ajax({
-          url: url,
-          data: {
-            'country': countryId
-          },
-          success: function(data) {
-            $("#id_province").html(data);
-          }
-        });
-      });
-      
-      $("#id_province").change(function() {
-        var url = $("#register-form").attr("data-cities-url");
-        var provinceId = $(this).val();
-        $.ajax({
-          url: url,
-          data: {
-            'province': provinceId
-          },
-          success: function(data) {
-            $("#id_city").html(data);
-          }
-        });
-      });
-    </script>
+    <script src="{% static 'js/jquery.register.js' %}" type="text/javascript"></script>
   </div>
 </div>
 {% endblock %}
